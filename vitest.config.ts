@@ -1,19 +1,13 @@
-import * as path from "path";
-import * as VitestConfig from "vitest/config";
 import react from "@vitejs/plugin-react";
+import { defineConfig } from "vitest/config";
 
-export default VitestConfig.defineConfig({
-  test: {
-    environment: "jsdom",
-    globals: true,
-    includeSource: ["app/**/*.{ts,tsx}"],
-    exclude: ["node_modules", "e2e"],
-    setupFiles: ["./vitest.setup.ts"],
-  },
-  resolve: {
-    alias: {
-      "~": path.resolve(__dirname, "app"),
-    },
-  },
+export default defineConfig({
   plugins: [react()],
+  test: {
+    globals: true,
+    environment: "happy-dom",
+    setupFiles: "setup.ts",
+    exclude: ["node_modules"],
+    include: ["**/*.{test,spec}.?(c|m)[jt]s?(x)"],
+  },
 });

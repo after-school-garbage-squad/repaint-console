@@ -1,0 +1,8 @@
+env:
+  browser: true
+  node: true
+
+extends:
+  - "@bayathy/eslint-config"
+  - "@bayathy/eslint-config-react"
+  - "@bayathy/eslint-config-tailwindcss"
