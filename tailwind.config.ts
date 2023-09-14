@@ -10,7 +10,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        blue: "#C0DEFF",
+        purple: "#ADA2FF",
+        red: "#FF003D",
+        yellow: "#FFFDDE",
+        gray: "#D6D6D6",
+        deepBlue: "#429CFF",
+        green: "#80AB28",
+        background: "#F8F8F8",
+      },
+    },
   },
   plugins: [],
 } satisfies Config;
