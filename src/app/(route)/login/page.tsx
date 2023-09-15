@@ -21,12 +21,6 @@ export default function LoginPage() {
         >
           ログイン
         </button>
-        <button
-          onClick={() => router.push("/api/auth/logout")}
-          className={"h-12 w-48 rounded-lg bg-deepBlue text-white"}
-        >
-          ログアウト
-        </button>
       </div>
     </div>
   );
