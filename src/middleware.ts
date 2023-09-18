@@ -5,5 +5,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matchers: ["api/auth/signin"],
+  matcher: ["/api/auth/signin"],
 };

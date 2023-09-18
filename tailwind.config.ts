@@ -19,7 +19,7 @@ export default {
         gray: "#D6D6D6",
         deepBlue: "#429CFF",
         green: "#80AB28",
-        background: "#F8F8F8",
+        background: "#F0F0F0",
       },
     },
   },
