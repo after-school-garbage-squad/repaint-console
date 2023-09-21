@@ -1,9 +1,9 @@
-import type { NextRequest } from "next/server";
+import { withMiddlewareAuthRequired } from "@auth0/nextjs-auth0/edge";
 
-export function middleware(req: NextRequest) {
-  console.log(req.nextUrl.searchParams.get("inviteId"));
-}
+export default withMiddlewareAuthRequired({
+  returnTo: "/login",
+});
 
 export const config = {
-  matcher: ["/api/auth/signin"],
+  matcher: ["/dashboard/:path*"],
 };
