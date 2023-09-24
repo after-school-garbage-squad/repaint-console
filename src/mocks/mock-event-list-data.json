@@ -1,0 +1,38 @@
+{
+  "events": [
+    {
+      "id": "id1",
+      "url": "https://www.google.com",
+      "name": "event1",
+      "beacons": [
+        {
+          "serviceUUID": "serviceuuid1",
+          "HWID": "hwid1"
+        }
+      ],
+      "image_id": ["imageid"],
+      "contact": {
+        "name": "name1",
+        "email": "email1",
+        "phone": "phone1"
+      }
+    },
+    {
+      "id": "id1",
+      "url": "https://www.google.com",
+      "name": "event1",
+      "beacons": [
+        {
+          "serviceUUID": "serviceuuid1",
+          "HWID": "hwid1"
+        }
+      ],
+      "image_id": ["imageid"],
+      "contact": {
+        "name": "name1",
+        "email": "email1",
+        "phone": "phone1"
+      }
+    }
+  ]
+}
