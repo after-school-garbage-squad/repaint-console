@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.1.0",
+    "@radix-ui/react-icons": "^1.3.0",
     "@types/node": "20.5.9",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
@@ -27,6 +28,7 @@
     "@bayathy/eslint-config": "^1.7.0",
     "@bayathy/eslint-config-react": "^1.4.0",
     "@bayathy/eslint-config-tailwindcss": "^1.4.0",
+    "@iconify/react": "^4.1.1",
     "@testing-library/jest-dom": "^6.1.3",
     "@testing-library/react": "^14.0.0",
     "@vanilla-extract/css": "^1.13.0",

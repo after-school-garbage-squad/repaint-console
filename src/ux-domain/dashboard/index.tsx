@@ -1,6 +1,6 @@
 import { DashBoardHeader } from "./components/header";
 
-import { ProjectCard } from "@/components/card/project-card";
+import { ProjectCard } from "@/ux-domain/dashboard/project-card";
 
 export const eventList = {
   event: [
