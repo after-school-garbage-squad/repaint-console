@@ -1,19 +1,21 @@
+"use client";
+
+import { useEffect } from "react";
+
+import { useAtom } from "jotai";
+
 import { DashBoardHeader } from "./components/header";
 
-import { ProjectCard } from "@/ux-domain/dashboard/project-card";
+import { eventListAtom } from "@/domain/event/store/atom";
+import { ProjectCard } from "@/ux-domain/dashboard/components/project-card";
 
-export const eventList = {
+const eventListData = {
   event: [
     {
       id: "id1",
       url: "https://google.com",
       beacons: [
         {
-          iBeacon: {
-            uuid: "uuid1",
-            major: 1,
-            minor: 1,
-          },
           HWID: "hwid1",
           serviceUUID: "serviceUUID1",
         },
@@ -30,13 +32,20 @@ export const eventList = {
 };
 
 export default function DashboardPage() {
+  const [eventList, setEventList] = useAtom(eventListAtom);
+
+  useEffect(() => {
+    setEventList(eventListData.event);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <DashBoardHeader />
       <main className={"grid gap-4 px-4"}>
         <h1 className={"pt-8 text-2xl"}>プロジェクト一覧</h1>
         <div>
-          {eventList.event.map((event) => {
+          {eventList.map((event) => {
             return (
               <ProjectCard key={event.id} name={event.name} id={event.id} />
             );
