@@ -26,6 +26,9 @@ dependencies:
   eslint-config-next:
     specifier: 13.4.19
     version: 13.4.19(eslint@8.48.0)(typescript@5.2.2)
+  jotai:
+    specifier: ^2.4.2
+    version: 2.4.2(@types/react@18.2.21)(react@18.2.0)
   next:
     specifier: 13.4.19
     version: 13.4.19(@babel/core@7.22.15)(react-dom@18.2.0)(react@18.2.0)
@@ -52,6 +55,9 @@ devDependencies:
   '@iconify/react':
     specifier: ^4.1.1
     version: 4.1.1(react@18.2.0)
+  '@swc-jotai/react-refresh':
+    specifier: ^0.1.0
+    version: 0.1.0
   '@testing-library/jest-dom':
     specifier: ^6.1.3
     version: 6.1.3(vitest@0.34.3)
@@ -1050,6 +1056,10 @@ packages:
 
   /@sinclair/typebox@0.27.8:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
+    dev: true
+
+  /@swc-jotai/react-refresh@0.1.0:
+    resolution: {integrity: sha512-CWV4W06GdfQo3cW3CoUM2fp7avH4Z/suR7SvECNJnQbr6Sa9U3p7o10nXjNv2zT6z09bbNUPM55HBw5Nwd24Iw==}
     dev: true
 
   /@swc/helpers@0.5.1:
@@ -3355,6 +3365,22 @@ packages:
 
   /jose@4.14.6:
     resolution: {integrity: sha512-EqJPEUlZD0/CSUMubKtMaYUOtWe91tZXTWMJZoKSbLk+KtdhNdcvppH8lA9XwVu2V4Ailvsj0GBZJ2ZwDjfesQ==}
+    dev: false
+
+  /jotai@2.4.2(@types/react@18.2.21)(react@18.2.0):
+    resolution: {integrity: sha512-90jXVOd9h6gi5JXk558M+wnJfaaVN2WegcNOCfiFbWboNaDl6DkRgiY/K1oeqTfYJmq8yM7XPsL99LAvcOPqhw==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=17.0.0'
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 18.2.21
+      react: 18.2.0
     dev: false
 
   /js-levenshtein@1.1.6:

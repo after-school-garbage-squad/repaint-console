@@ -4,6 +4,7 @@ import { Noto_Sans_JP } from "next/font/google";
 import type { Metadata } from "next";
 
 import "./globals.css";
+import { StoreProvider } from "@/domain/event/provider";
 
 const font = Noto_Sans_JP({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <UserProvider>
-        <body className={`${font.className} bg-background`}>{children}</body>
+        <StoreProvider>
+          <body className={`${font.className} bg-background`}>{children}</body>
+        </StoreProvider>
       </UserProvider>
     </html>
   );
