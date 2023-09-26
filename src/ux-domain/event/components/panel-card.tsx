@@ -12,7 +12,7 @@ export const PanelCard = ({ children, className, ...rest }: PanelCardProps) => {
     <div
       className={twMerge(
         "relative max-w-sm rounded-lg border-2 border-gray bg-white p-4",
-        className
+        className,
       )}
       {...rest}
     >
