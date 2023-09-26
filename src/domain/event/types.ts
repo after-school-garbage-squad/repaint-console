@@ -1,6 +1,10 @@
 export type Beacon = {
-  HWID: string;
-  serviceUUID: string;
+  spotID: string;
+  name: string;
+  isPick: boolean;
+  bonus: boolean;
+  hwId: string;
+  serviceUuid: string;
 };
 
 export type Contact = {
@@ -10,10 +14,10 @@ export type Contact = {
 };
 
 export type Event = {
-  id: string;
-  url: string;
-  beacons: Beacon[];
-  image_id: string[];
+  eventId: string;
   name: string;
+  hpUrl: string;
+  spots: Beacon[];
+  image_id: string[];
   contact: Contact;
 };

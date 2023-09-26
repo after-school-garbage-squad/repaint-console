@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { useAtom } from "jotai";
 
 import { PanelCard } from "../../components/panel-card";
@@ -12,21 +10,18 @@ import { selectEventAtom } from "@/domain/event/store/atom";
 export const BeaconSettingPanel = () => {
   const [selectEvent] = useAtom(selectEventAtom);
 
-  useEffect(() => {
-    console.log(selectEvent);
-  }, [selectEvent]);
   return (
     <PanelCard>
       <p className={"text-lg text-deepBlue"}>登録済みビーコンリスト</p>
       <ul>
-        {selectEvent?.beacons.map((beacon) => (
+        {selectEvent?.spots.map((spot) => (
           <li
-            key={beacon.HWID}
+            key={spot.hwId}
             className={
               "flex items-center justify-between border-b-2 border-gray py-1"
             }
           >
-            <p>{beacon.HWID}</p>
+            <p>{spot.name}</p>
             <Icon height={24} width={24} icon={"ri:settings-5-line"} />
           </li>
         ))}

@@ -4,7 +4,7 @@ import { Icon } from "@/components/Icon";
 
 export const EventNamePanelCard = () => {
   return (
-    <PanelCard title={"イベント名"} className={"w-80"}>
+    <PanelCard title={"イベント名"}>
       <p className={"text-lg text-deepBlue"}>イベント名</p>
       <div className={"flex items-center justify-between gap-2"}>
         <p className={"text-xl"}>This is event name</p>

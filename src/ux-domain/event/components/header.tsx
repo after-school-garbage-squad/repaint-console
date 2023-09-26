@@ -8,7 +8,9 @@ export const EventConsoleHeader = () => {
     <header
       className={"flex h-12 w-full items-center justify-between bg-white px-4"}
     >
-      <Image src={"/icon.png"} alt="repaintのロゴ" width={44} height={44} />
+      <Link href={"/dashboard"}>
+        <Image src={"/icon.png"} alt="repaintのロゴ" width={44} height={44} />
+      </Link>
       <h1>イベントタイトル</h1>
       <div className={"flex justify-center gap-2"}>
         <Link href={"./general"}>
@@ -19,7 +21,7 @@ export const EventConsoleHeader = () => {
             className={"hover:text-deepBlue"}
           />
         </Link>
-        <Link href={"./beacon"}>
+        <Link href={"./move"}>
           <Icon
             width={24}
             height={24}
@@ -27,7 +29,7 @@ export const EventConsoleHeader = () => {
             className={"hover:text-deepBlue"}
           />
         </Link>
-        <Link href={"/beacon"}>
+        <Link href={"./beacon"}>
           <Icon
             width={24}
             height={24}
