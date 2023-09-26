@@ -1,6 +1,6 @@
 import { PanelCard } from "../../components/panel-card";
 
-export const EventImageSetPanel = () => {
+export const EventDefaultImageSetPanel = () => {
   return (
     <PanelCard>
       <div className={"flex items-center justify-between"}>

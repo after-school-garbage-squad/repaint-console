@@ -6,36 +6,99 @@ import { useAtom } from "jotai";
 
 import { DashBoardHeader } from "./components/header";
 
+import type { Event } from "@/domain/event/types";
+
 import { eventListAtom } from "@/domain/event/store/atom";
 import { ProjectCard } from "@/ux-domain/dashboard/components/project-card";
 
-const eventListData = {
-  event: [
-    {
-      id: "id1",
-      url: "https://google.com",
-      beacons: [
-        {
-          HWID: "hwid1",
-          serviceUUID: "serviceUUID1",
-        },
-      ],
-      image_id: ["image_id1"],
-      name: "name1",
-      contact: {
-        name: "contact_name1",
-        email: "contact_email1",
-        phone: "contact_phone1",
+// mockdataを埋める
+const eventListData: Event[] = [
+  {
+    eventId: "id1",
+    name: "イベント名1",
+    spots: [
+      {
+        hwId: "hwId1",
+        name: "ビーコン名1",
+        serviceUuid: "serviceUuid1",
+        spotID: "spotID1",
+        isPick: false,
+        bonus: false,
       },
+      {
+        hwId: "hwId1",
+        name: "ビーコン名1",
+        serviceUuid: "serviceUuid1",
+        spotID: "spotID1",
+        isPick: false,
+        bonus: true,
+      },
+      {
+        hwId: "hwId1",
+        name: "ビーコン名1",
+        serviceUuid: "serviceUuid1",
+        spotID: "spotID1",
+        isPick: false,
+        bonus: true,
+      },
+    ],
+    hpUrl: "https://www.google.com/",
+    image_id: ["/rap"],
+    contact: {
+      name: "担当者名1",
+      email: "xxx@example.com",
+      phone: "090-1234-5678",
     },
-  ],
-};
+  },
+  {
+    eventId: "id2",
+    name: "イベント名1",
+    spots: [
+      {
+        hwId: "hwId1",
+        name: "ビーコン名1",
+        serviceUuid: "serviceUuid1",
+        spotID: "spotID1",
+        isPick: false,
+        bonus: true,
+      },
+    ],
+    hpUrl: "https://www.google.com/",
+    image_id: ["/rap"],
+    contact: {
+      name: "担当者名1",
+      email: "xxx@example.com",
+      phone: "090-1234-5678",
+    },
+  },
+  {
+    eventId: "id3",
+    name: "イベント名1",
+    spots: [
+      {
+        hwId: "hwId1",
+        name: "ビーコン名1",
+        serviceUuid: "serviceUuid1",
+        spotID: "spotID1",
+        isPick: false,
+        bonus: true,
+      },
+    ],
+    hpUrl: "https://www.google.com/",
+    image_id: ["/rap"],
+    contact: {
+      name: "担当者名1",
+      email: "xxx@example.com",
+      phone: "090-1234-5678",
+    },
+  },
+];
 
 export default function DashboardPage() {
   const [eventList, setEventList] = useAtom(eventListAtom);
 
   useEffect(() => {
-    setEventList(eventListData.event);
+    setEventList(eventListData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -44,10 +107,14 @@ export default function DashboardPage() {
       <DashBoardHeader />
       <main className={"grid gap-4 px-4"}>
         <h1 className={"pt-8 text-2xl"}>プロジェクト一覧</h1>
-        <div>
+        <div className={"flex gap-4"}>
           {eventList.map((event) => {
             return (
-              <ProjectCard key={event.id} name={event.name} id={event.id} />
+              <ProjectCard
+                key={event.eventId}
+                id={event.eventId}
+                name={event.name}
+              />
             );
           })}
         </div>

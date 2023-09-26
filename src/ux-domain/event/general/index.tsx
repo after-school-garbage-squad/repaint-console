@@ -1,4 +1,4 @@
-import { EventImageSetPanel } from "./components/event-image-set-panel";
+import { EventDefaultImageSetPanel } from "./components/event-default-image-set-panel";
 import { EventNamePanelCard } from "./components/event-name-panel-card";
 import { EventQrPanel } from "./components/event-qr-panel";
 import { ManagementMemberCard } from "./components/manegement-member-card";
@@ -14,7 +14,7 @@ export const GeneralPage = () => {
         </div>
         <div className={"flex justify-start gap-4"}>
           <EventQrPanel />
-          <EventImageSetPanel />
+          <EventDefaultImageSetPanel />
         </div>
       </div>
     </main>
