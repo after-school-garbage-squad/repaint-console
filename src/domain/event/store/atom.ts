@@ -1,8 +1,9 @@
 import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
 import type { Event } from "../types";
 
-export const eventListAtom = atom<Event[]>([]);
+export const eventListAtom = atomWithStorage<Event[]>("eventList", []);
 
 export const selectEventAtom = atom<Event | null>((get) => {
   const eventList = get(eventListAtom);
@@ -10,4 +11,7 @@ export const selectEventAtom = atom<Event | null>((get) => {
   return eventList.find((event) => event.eventId === eventID) || null;
 });
 
-export const selectEventIDAtom = atom<string | null>(null);
+export const selectEventIDAtom = atomWithStorage<string | null>(
+  "selectEventId",
+  null
+);
