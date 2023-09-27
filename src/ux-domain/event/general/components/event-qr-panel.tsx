@@ -13,7 +13,7 @@ export const EventQrPanel = () => {
 
   const handleSaveImage = () => {
     // eslint-disable-next-line unicorn/prefer-query-selector
-    const qrCodeElement = document.getElementById("#qr-code");
+    const qrCodeElement = document.getElementById("qr-code");
 
     html2canvas(qrCodeElement!).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
@@ -30,12 +30,13 @@ export const EventQrPanel = () => {
         <p className={"text-lg text-deepBlue"}>イベント管理者</p>
         <button
           onClick={handleSaveImage}
-          className={"rounded-lg bg-deepBlue p-2 text-white"}>
+          className={"rounded-lg bg-deepBlue p-2 text-white"}
+        >
           ダウンロード
         </button>
       </div>
-      <div className={"grid flex-auto place-items-center"}>
-        <QRCode value={selectEventID!} />
+      <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
+        <QRCode value={selectEventID!} width={250} />
       </div>
     </PanelCard>
   );

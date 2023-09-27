@@ -11,7 +11,4 @@ export const selectEventAtom = atom<Event | null>((get) => {
   return eventList.find((event) => event.eventId === eventID) || null;
 });
 
-export const selectEventIDAtom = atomWithStorage<string | null>(
-  "selectEventId",
-  null
-);
+export const selectEventIDAtom = atomWithStorage<string>("selectEventId", "");

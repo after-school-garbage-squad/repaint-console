@@ -26,6 +26,7 @@
     "react-dom": "18.2.0",
     "react-qr-code": "^2.0.12",
     "react-select": "^5.7.5",
+    "swiper": "^10.3.0",
     "typescript": "5.2.2"
   },
   "devDependencies": {
