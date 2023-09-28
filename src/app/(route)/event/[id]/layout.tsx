@@ -8,7 +8,7 @@ export default function EventLayout({
   return (
     <div>
       <EventConsoleHeader />
-      <div className={"mx-4 mt-4"}>{children}</div>
+      <div className={"mx-4 mt-4 pb-4"}>{children}</div>
     </div>
   );
 }
