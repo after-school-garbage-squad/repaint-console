@@ -111,7 +111,7 @@ export default function DashboardPage() {
           <h1 className={"text-2xl"}>プロジェクト一覧</h1>
           <EventCreateDialog />
         </div>
-        <div className={"flex gap-4"}>
+        <div className={"flex flex-wrap gap-4"}>
           {eventList.map((event) => {
             return (
               <ProjectCard

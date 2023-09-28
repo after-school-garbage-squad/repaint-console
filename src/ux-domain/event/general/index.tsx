@@ -13,7 +13,9 @@ export const GeneralPage = () => {
           <ManagementMemberCard />
         </div>
         <div
-          className={"flex flex-auto flex-col justify-start gap-4 md:flex-row"}
+          className={
+            "flex flex-auto flex-col items-start justify-start gap-4 md:flex-row"
+          }
         >
           <EventQrPanel />
           <EventDefaultImageSetPanel />

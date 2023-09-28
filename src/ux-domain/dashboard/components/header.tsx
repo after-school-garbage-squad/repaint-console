@@ -14,7 +14,11 @@ export const DashBoardHeader = () => {
   };
 
   return (
-    <header className={"flex h-24 items-center gap-4 bg-white px-8"}>
+    <header
+      className={
+        "flex min-h-[96px] flex-col items-center gap-4 bg-white px-8 py-2 md:flex-row"
+      }
+    >
       <Image
         alt="repaintのロゴ"
         src={"/repaint-logo.svg"}
