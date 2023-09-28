@@ -1,10 +1,13 @@
 "use client";
 
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { EnvelopeClosedIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export const DashBoardHeader = () => {
   const router = useRouter();
+  const { user } = useUser();
 
   const logout = () => {
     router.push("/api/auth/logout");
@@ -21,7 +24,10 @@ export const DashBoardHeader = () => {
       <div className="flex flex-auto items-center justify-between">
         <div className={"flex flex-col gap-2"}>
           <p>ログイン中のアカウント</p>
-          <p>メールアドレス</p>
+          <div className={"flex items-center gap-2"}>
+            <EnvelopeClosedIcon width={16} height={16} />
+            <p>{user?.email}</p>
+          </div>
         </div>
         <button
           onClick={logout}

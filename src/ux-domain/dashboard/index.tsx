@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import { useAtom } from "jotai";
 
+import { EventCreateDialog } from "./components/craete-event-dialog";
 import { DashBoardHeader } from "./components/header";
 
 import type { Event } from "@/domain/event/types";
@@ -106,7 +107,10 @@ export default function DashboardPage() {
     <>
       <DashBoardHeader />
       <main className={"grid gap-4 px-4"}>
-        <h1 className={"pt-8 text-2xl"}>プロジェクト一覧</h1>
+        <div className={"mt-8 flex items-center justify-between"}>
+          <h1 className={"text-2xl"}>プロジェクト一覧</h1>
+          <EventCreateDialog />
+        </div>
         <div className={"flex gap-4"}>
           {eventList.map((event) => {
             return (

@@ -25,10 +25,12 @@
     "next": "13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.46.2",
     "react-qr-code": "^2.0.12",
     "react-select": "^5.7.5",
     "swiper": "^10.3.0",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@bayathy/eslint-config": "^1.8.0",
