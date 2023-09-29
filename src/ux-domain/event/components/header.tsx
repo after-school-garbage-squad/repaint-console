@@ -37,7 +37,7 @@ export const EventConsoleHeader = () => {
             className={"hover:text-deepBlue"}
           />
         </Link>
-        <Link href={"/general"}>
+        <Link href={"./settings"}>
           <Icon
             width={24}
             height={24}
