@@ -27,7 +27,7 @@ export const BeaconStatePanel = () => {
             <li
               key={spot.hwId}
               className={
-                "flex w-full items-center justify-center gap-2 border-b-2 border-deepBlue px-4 py-2 md:w-max"
+                "flex w-full items-center justify-center gap-2 border-b-2 border-gray px-4 py-2 md:w-max"
               }
             >
               <p>{spot.name}</p>
