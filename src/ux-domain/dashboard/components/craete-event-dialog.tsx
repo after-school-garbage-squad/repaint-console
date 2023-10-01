@@ -8,6 +8,8 @@ import { CreateEventFormSchema } from "../lib/schema";
 import type { Event } from "@/domain/event/types";
 
 import { Dialog } from "@/components/dialog";
+import { getIdToken } from "@/domain/auth/api/get-id-token";
+import { createEvent } from "@/domain/event/api/create-event";
 
 type EventCreateFormInputProps = {
   label: string;
@@ -50,8 +52,15 @@ export const EventCreateDialog = () => {
     resolver: zodResolver(CreateEventFormSchema),
   });
 
-  const onSubmit = (data: Omit<Event, "eventId" | "spots" | "image_id">) => {
-    console.log(data);
+  const onSubmit = async (
+    data: Omit<Event, "eventId" | "spots" | "image_id">
+  ) => {
+    const idToken = await getIdToken();
+    if (!idToken) return;
+    createEvent({
+      ...data,
+      idToken,
+    });
   };
 
   return (

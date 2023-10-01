@@ -25,7 +25,7 @@ export const DashBoardHeader = () => {
         width={180}
         height={70}
       />
-      <div className="flex flex-auto items-center justify-between">
+      <div className="flex w-full flex-auto items-center justify-between">
         <div className={"flex flex-col gap-2"}>
           <p>ログイン中のアカウント</p>
           <div className={"flex items-center gap-2"}>
