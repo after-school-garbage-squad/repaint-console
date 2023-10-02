@@ -1,3 +1,5 @@
+import type { Event } from "../types";
+
 export type CreateEventProps = {
   name: string;
   hpUrl: string;
@@ -22,6 +24,7 @@ export const createEvent = async ({
       method: "POST",
       headers: {
         Authorization: `Bearer ${idToken}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name,
