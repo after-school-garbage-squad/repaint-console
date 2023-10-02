@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-export const CreateEventFormSchema = z.object({
+// TODO: 適切な命名に変更する
+export const EventFormSchema = z.object({
   name: z
     .string({
       required_error: "必須項目です",
