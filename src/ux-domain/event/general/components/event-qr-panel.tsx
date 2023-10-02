@@ -6,10 +6,10 @@ import QRCode from "react-qr-code";
 
 import { PanelCard } from "../../components/panel-card";
 
-import { selectEventIDAtom } from "@/domain/event/store/atom";
+import { selectEventIdAtom } from "@/domain/event/store/atom";
 
 export const EventQrPanel = () => {
-  const [selectEventID] = useAtom(selectEventIDAtom);
+  const [selectEventId] = useAtom(selectEventIdAtom);
 
   const handleSaveImage = () => {
     // eslint-disable-next-line unicorn/prefer-query-selector
@@ -27,7 +27,7 @@ export const EventQrPanel = () => {
   return (
     <PanelCard className={"flex flex-col"}>
       <div className={"flex items-center justify-between"}>
-        <p className={"text-lg text-deepBlue"}>イベント管理者</p>
+        <p className={"text-lg text-deepBlue"}>イベントQRコード</p>
         <button
           onClick={handleSaveImage}
           className={"rounded-lg bg-deepBlue p-2 text-white"}
@@ -36,7 +36,7 @@ export const EventQrPanel = () => {
         </button>
       </div>
       <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
-        <QRCode value={selectEventID!} width={250} />
+        <QRCode value={selectEventId!} width={250} />
       </div>
     </PanelCard>
   );

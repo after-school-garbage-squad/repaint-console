@@ -6,10 +6,10 @@ import { useAtom } from "jotai";
 import { PanelCard } from "../../components/panel-card";
 
 import { Dialog } from "@/components/dialog";
-import { selectEventIDAtom } from "@/domain/event/store/atom";
+import { selectEventIdAtom } from "@/domain/event/store/atom";
 
 export const DeleteEventDialog = () => {
-  const [selectEventID] = useAtom(selectEventIDAtom);
+  const [selectEventId] = useAtom(selectEventIdAtom);
   return (
     <Dialog
       trigger={
@@ -36,7 +36,7 @@ export const DeleteEventDialog = () => {
           </Close>
           <button
             onSubmit={() => {
-              console.log(selectEventID);
+              console.log(selectEventId);
             }}
             className={"flex-1 rounded-lg bg-red px-4 py-2 text-white"}
             aria-label="イベントを削除を確定する"
