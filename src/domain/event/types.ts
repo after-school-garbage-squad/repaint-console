@@ -1,5 +1,5 @@
 export type Beacon = {
-  spotID: string;
+  spotId: string;
   name: string;
   isPick: boolean;
   bonus: boolean;
