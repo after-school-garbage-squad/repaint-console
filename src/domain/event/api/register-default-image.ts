@@ -3,12 +3,13 @@ export const registerDefaultImage = async (
   eventID: string,
   formData: FormData
 ) => {
+  //fetchで画像のバイナリファイルをPOSTする
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/event/${eventID}/image/register-default`,
     {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${idToken}`,
       },
       body: formData,
