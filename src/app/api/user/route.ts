@@ -9,9 +9,14 @@ export const fetchCache = "force-no-store";
 console.log("AUTH0_SECRET =", process.env.AUTH0_SECRET);
 
 export const GET = async (req: NextRequest) => {
-  const res = new NextResponse()
+  const res = new NextResponse();
   const session = await getSession(req, res);
   if (!session?.idToken) return;
   const idToken = session.idToken;
-  return NextResponse.json(idToken, { status: 200 });
+  try {
+    return NextResponse.json(idToken, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ message: error, success: false });
+  }
 };
