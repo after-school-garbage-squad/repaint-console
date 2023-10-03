@@ -16,7 +16,7 @@ export const EventFormSchema = z.object({
   contact: z.object({
     name: z
       .string({ required_error: "必須項目です" })
-      .min(3, { message: "1文字以上でお願いします。" })
+      .min(1, { message: "1文字以上でお願いします。" })
       .max(50, { message: "50文字以内でお願いします。" }),
     email: z.string({ required_error: "必須項目です。" }).email({
       message: "メールアドレスの形式で入力してください。",
