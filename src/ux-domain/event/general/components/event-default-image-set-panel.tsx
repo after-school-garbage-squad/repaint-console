@@ -29,7 +29,7 @@ const EventDefaultImageSetDialog = () => {
     // DataURLを作成
     if (e.target.files?.[0] === undefined) return;
     reader.readAsDataURL(e.target.files?.[0]);
-    // 読み込み完了後の処理
+    
     reader.addEventListener("load", () => {
       setPreviewImage(reader.result as string);
     });
@@ -40,8 +40,6 @@ const EventDefaultImageSetDialog = () => {
     if (!idToken) return;
     const data: FormData = new FormData();
     data.append("image", inputRef.current?.files?.[0] as Blob);
-
-    console.log(data);
 
     registerDefaultImage(idToken, selectEventId, data);
   };
