@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import type { NextRequest } from "next/server";
 
-export const fetchCache = "no-store";
+export const fetchCache = "force-no-store";
 
 export const GET = async (req: NextRequest) => {
   const res = NextResponse.next();
