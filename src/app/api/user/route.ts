@@ -5,6 +5,9 @@ import type { NextRequest } from "next/server";
 
 export const fetchCache = "no-store";
 
+// eslint-disable-next-line no-console
+console.log("AUTH0_SECRET =", process.env.AUTH0_SECRET);
+
 export const GET = async (req: NextRequest) => {
   const res = NextResponse.next();
   const session = await getSession(req, res);
