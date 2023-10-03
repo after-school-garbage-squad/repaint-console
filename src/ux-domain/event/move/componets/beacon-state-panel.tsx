@@ -23,22 +23,23 @@ export const BeaconStatePanel = () => {
       </div>
       <div className={"mt-2 w-full"}>
         <ul className={"flex flex-col gap-4 md:flex-row"}>
-          {selectEvent?.spots.map((spot) => (
-            <li
-              key={spot.hwId}
-              className={
-                "flex w-full items-center justify-center gap-2 border-b-2 border-gray px-4 py-2 md:w-max"
-              }
-            >
-              <p>{spot.name}</p>
-              {spot.bonus && (
-                <Icon
-                  icon={"ri:checkbox-blank-circle-fill"}
-                  className={"h-max w-max text-rose-500"}
-                />
-              )}
-            </li>
-          ))}
+          {selectEvent?.spots &&
+            selectEvent?.spots.map((spot) => (
+              <li
+                key={spot.hwId}
+                className={
+                  "flex w-full items-center justify-center gap-2 border-b-2 border-gray px-4 py-2 md:w-max"
+                }
+              >
+                <p>{spot.name}</p>
+                {spot.bonus && (
+                  <Icon
+                    icon={"ri:checkbox-blank-circle-fill"}
+                    className={"h-max w-max text-rose-500"}
+                  />
+                )}
+              </li>
+            ))}
         </ul>
       </div>
     </PanelCard>
