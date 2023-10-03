@@ -7,8 +7,8 @@ export const eventListAtom = atomWithStorage<Event[]>("eventList", []);
 
 export const selectEventAtom = atom<Event | null>((get) => {
   const eventList = get(eventListAtom);
-  const eventID = get(selectEventIDAtom);
-  return eventList.find((event) => event.eventId === eventID) || null;
+  const eventId = get(selectEventIdAtom);
+  return eventList.find((event) => event.eventId === eventId) || null;
 });
 
-export const selectEventIDAtom = atomWithStorage<string>("selectEventId", "");
+export const selectEventIdAtom = atomWithStorage<string>("selectEventId", "");

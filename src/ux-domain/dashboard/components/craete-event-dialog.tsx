@@ -1,13 +1,17 @@
 import { forwardRef, type ComponentProps } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
-
-import { CreateEventFormSchema } from "../lib/schema";
 
 import type { Event } from "@/domain/event/types";
 
 import { Dialog } from "@/components/dialog";
+import { getIdToken } from "@/domain/auth/api/get-id-token";
+import { createEvent } from "@/domain/event/api/create-event";
+import { EventFormSchema } from "@/domain/event/schema/event-form-schema";
+import { eventListAtom } from "@/domain/event/store/atom";
 
 type EventCreateFormInputProps = {
   label: string;
@@ -41,17 +45,28 @@ const EventCreateFormInput = forwardRef<
 });
 
 export const EventCreateDialog = () => {
+  const [eventList, setEventList] = useAtom(eventListAtom);
+
   const {
     register,
     handleSubmit,
     formState: { isDirty, isValid, errors },
   } = useForm<Omit<Event, "eventId" | "spots" | "image_id">>({
     mode: "onChange",
-    resolver: zodResolver(CreateEventFormSchema),
+    resolver: zodResolver(EventFormSchema),
   });
 
-  const onSubmit = (data: Omit<Event, "eventId" | "spots" | "image_id">) => {
-    console.log(data);
+  const onSubmit = async (
+    data: Omit<Event, "eventId" | "spots" | "image_id">
+  ) => {
+    const idToken = await getIdToken();
+    if (!idToken) return;
+    const eventaData = await createEvent({
+      ...data,
+      idToken,
+    });
+
+    setEventList([...eventList, eventaData]);
   };
 
   return (
@@ -102,15 +117,17 @@ export const EventCreateDialog = () => {
           />
         </div>
         <div className={"my-4 flex justify-end"}>
-          <button
-            disabled={!isDirty || !isValid}
-            className={
-              "rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
-            }
-            type={"submit"}
-          >
-            作成する
-          </button>
+          <DialogClose asChild>
+            <button
+              disabled={!isDirty || !isValid}
+              className={
+                "rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
+              }
+              type={"submit"}
+            >
+              作成する
+            </button>
+          </DialogClose>
         </div>
       </form>
     </Dialog>

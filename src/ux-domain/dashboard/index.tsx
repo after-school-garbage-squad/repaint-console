@@ -7,102 +7,33 @@ import { useAtom } from "jotai";
 import { EventCreateDialog } from "./components/craete-event-dialog";
 import { DashBoardHeader } from "./components/header";
 
-import type { Event } from "@/domain/event/types";
-
+import { getIdToken } from "@/domain/auth/api/get-id-token";
+import { getEvent } from "@/domain/event/api/get-event";
 import { eventListAtom } from "@/domain/event/store/atom";
 import { ProjectCard } from "@/ux-domain/dashboard/components/project-card";
-
-// mockdataを埋める
-const eventListData: Event[] = [
-  {
-    eventId: "id1",
-    name: "イベント名1",
-    spots: [
-      {
-        hwId: "hwId1",
-        name: "ビーコン名1",
-        serviceUuid: "serviceUuid1",
-        spotID: "spotID1",
-        isPick: false,
-        bonus: false,
-      },
-      {
-        hwId: "hwId1",
-        name: "ビーコン名1",
-        serviceUuid: "serviceUuid1",
-        spotID: "spotID1",
-        isPick: false,
-        bonus: true,
-      },
-      {
-        hwId: "hwId1",
-        name: "ビーコン名1",
-        serviceUuid: "serviceUuid1",
-        spotID: "spotID1",
-        isPick: false,
-        bonus: true,
-      },
-    ],
-    hpUrl: "https://www.google.com/",
-    image_id: ["/rap"],
-    contact: {
-      name: "担当者名1",
-      email: "xxx@example.com",
-      phone: "090-1234-5678",
-    },
-  },
-  {
-    eventId: "id2",
-    name: "イベント名1",
-    spots: [
-      {
-        hwId: "hwId1",
-        name: "ビーコン名1",
-        serviceUuid: "serviceUuid1",
-        spotID: "spotID1",
-        isPick: false,
-        bonus: true,
-      },
-    ],
-    hpUrl: "https://www.google.com/",
-    image_id: ["/rap"],
-    contact: {
-      name: "担当者名1",
-      email: "xxx@example.com",
-      phone: "090-1234-5678",
-    },
-  },
-  {
-    eventId: "id3",
-    name: "イベント名1",
-    spots: [
-      {
-        hwId: "hwId1",
-        name: "ビーコン名1",
-        serviceUuid: "serviceUuid1",
-        spotID: "spotID1",
-        isPick: false,
-        bonus: true,
-      },
-    ],
-    hpUrl: "https://www.google.com/",
-    image_id: ["/rap"],
-    contact: {
-      name: "担当者名1",
-      email: "xxx@example.com",
-      phone: "090-1234-5678",
-    },
-  },
-];
 
 export default function DashboardPage() {
   const [eventList, setEventList] = useAtom(eventListAtom);
 
   useEffect(() => {
-    setEventList(eventListData);
+    let isMounted = false;
+    const fetchEventList = async () => {
+      try {
+        const idToken = await getIdToken();
+        const response = await getEvent(idToken);
+        if (!isMounted) {
+          setEventList(response);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchEventList();
+    return () => {
+      isMounted = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <>
       <DashBoardHeader />
