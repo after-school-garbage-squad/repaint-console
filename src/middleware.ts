@@ -5,5 +5,5 @@ export default withMiddlewareAuthRequired({
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/event/:path*"],
 };
