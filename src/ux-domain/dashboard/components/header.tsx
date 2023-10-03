@@ -3,15 +3,9 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { EnvelopeClosedIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 export const DashBoardHeader = () => {
-  const router = useRouter();
   const { user } = useUser();
-
-  const logout = () => {
-    router.push("/api/auth/logout");
-  };
 
   return (
     <header
@@ -33,12 +27,12 @@ export const DashBoardHeader = () => {
             <p>{user?.email}</p>
           </div>
         </div>
-        <button
-          onClick={logout}
+        <a
+          href="/api/auth/logout"
           className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
         >
           ログアウト
-        </button>
+        </a>
       </div>
     </header>
   );
