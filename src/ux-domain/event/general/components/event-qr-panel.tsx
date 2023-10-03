@@ -30,13 +30,15 @@ export const EventQrPanel = () => {
         <p className={"text-lg text-deepBlue"}>イベントQRコード</p>
         <button
           onClick={handleSaveImage}
-          className={"rounded-lg bg-deepBlue p-2 text-white"}
-        >
+          className={"rounded-lg bg-deepBlue p-2 text-white"}>
           ダウンロード
         </button>
       </div>
       <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
-        <QRCode value={selectEventId!} width={250} />
+        <QRCode
+          value={`https://repaint.asgs.dev/?event_id=${selectEventId}`}
+          width={250}
+        />
       </div>
     </PanelCard>
   );

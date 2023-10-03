@@ -39,7 +39,7 @@ export const BeaconSettingDialog: FC<BeaconSettingDialogProps> = ({
         </div>
         <div className={"contents text-lg"}>
           <p>スポットID</p>
-          <p className={"px-2"}>{beacon.spotID}</p>
+          <p className={"px-2"}>{beacon.spotId}</p>
         </div>
         <div className={"contents text-lg"}>
           <p>サービスUUID</p>

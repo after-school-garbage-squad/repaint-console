@@ -8,7 +8,6 @@ export const registerDefaultImage = async (
     {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${idToken}`,
       },
       body: formData,
