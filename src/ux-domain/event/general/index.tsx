@@ -7,10 +7,9 @@ export const GeneralPage = () => {
       <h2 className={"text-2xl"}>一般</h2>
       <div className={"flex flex-col gap-4 md:flex-row"}>
         <div
-          className={"flex flex-auto flex-col justify-start gap-4 md:flex-row"}
-        >
+          className={"flex flex-auto flex-col justify-start gap-4 md:flex-row"}>
           <EventQrPanel />
-          <EventDefaultImageSetPanel imageidList={[]} />
+          <EventDefaultImageSetPanel />
         </div>
       </div>
     </main>
