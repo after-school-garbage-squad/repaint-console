@@ -1,6 +1,7 @@
-import { forwardRef, type ComponentProps } from "react";
+import { forwardRef, useState, type ComponentProps } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Close } from "@radix-ui/react-dialog";
 import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 
@@ -27,8 +28,7 @@ const EventCreateFormInput = forwardRef<
       <fieldset
         className={
           "grid grid-flow-col grid-rows-[1fr_1fr] items-center md:grid-flow-row md:grid-cols-[180px_1fr] md:grid-rows-[1fr]"
-        }
-      >
+        }>
         <label htmlFor="event-name">{label}</label>
         <input
           ref={ref}
@@ -46,9 +46,11 @@ const EventCreateFormInput = forwardRef<
 
 export const EventCreateDialog = () => {
   const [eventList, setEventList] = useAtom(eventListAtom);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const {
     register,
+    reset,
     handleSubmit,
     formState: { isDirty, isValid, errors },
   } = useForm<z.infer<typeof EventFormSchema>>({
@@ -67,16 +69,20 @@ export const EventCreateDialog = () => {
     });
 
     setEventList([...eventList, eventaData]);
+
+    reset();
+    setDialogOpen(false);
   };
 
   return (
     <Dialog
+      open={dialogOpen}
+      onOpenChange={() => setDialogOpen(!dialogOpen)}
       trigger={
         <button className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}>
           イベント作成
         </button>
-      }
-    >
+      }>
       <h1 className={"text-lg text-deepBlue"}>イベントを作成する</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={"mt-4 flex flex-col gap-4"}>
@@ -117,15 +123,20 @@ export const EventCreateDialog = () => {
           />
         </div>
         <div className={"my-4 flex justify-end"}>
-          <button
-            disabled={!isDirty || !isValid}
-            className={
-              "rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
-            }
-            type={"submit"}
-          >
-            作成する
-          </button>
+          <Close asChild>
+            <button
+              onClick={(event) => {
+                event.preventDefault();
+                handleSubmit(onSubmit)(event);
+              }}
+              type="submit"
+              disabled={!isDirty || !isValid}
+              className={
+                "rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
+              }>
+              作成する
+            </button>
+          </Close>
         </div>
       </form>
     </Dialog>
