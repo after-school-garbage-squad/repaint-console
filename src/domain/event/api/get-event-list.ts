@@ -1,6 +1,6 @@
 import type { Event } from "../types";
 
-export const getEvent = async (idToken: string): Promise<Event[]> => {
+export const getEventList = async (idToken: string): Promise<Event[]> => {
   // 例外処理を含んだfetch APIを使ってイベントを取得する
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/event/list`,
