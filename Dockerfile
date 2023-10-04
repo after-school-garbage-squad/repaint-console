@@ -31,7 +31,7 @@ ENV AUTH0_CLIENT_ID=$AUTH0_CLIENT_ID
 ENV AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET
 
 RUN touch .env.production
-RUN echo "NEXT_PUBLIC_FOO=$NEXT_PUBLIC_FOO" >> .env.production
+RUN echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" >> .env.production
 RUN cat .env.production
 
 RUN pnpm build
