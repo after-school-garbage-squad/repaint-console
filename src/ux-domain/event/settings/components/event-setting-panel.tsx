@@ -73,7 +73,7 @@ export const EventSettingPanel = () => {
   };
 
   const onSubmit: SubmitHandler<z.infer<typeof EventFormSchema>> = async (
-    data
+    data,
   ) => {
     setEditable(false);
     if (!selectEvent) return;
@@ -95,7 +95,7 @@ export const EventSettingPanel = () => {
       selectEvent,
       data.name,
       data.hpUrl,
-      data.contact
+      data.contact,
     );
 
     setEventList((prev) => {

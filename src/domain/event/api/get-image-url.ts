@@ -1,7 +1,7 @@
 export const getImageUrl = async (
   imageId: string,
   eventId: string,
-  idToken: string
+  idToken: string,
 ): Promise<string> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/event/${eventId}/image/prxoy`,
@@ -14,7 +14,7 @@ export const getImageUrl = async (
       body: JSON.stringify({
         imageId,
       }),
-    }
+    },
   );
 
   const { url } = await response.json();

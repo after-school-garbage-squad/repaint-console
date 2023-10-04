@@ -30,7 +30,8 @@ export const EventQrPanel = () => {
         <p className={"text-lg text-deepBlue"}>イベントQRコード</p>
         <button
           onClick={handleSaveImage}
-          className={"rounded-lg bg-deepBlue p-2 text-white"}>
+          className={"rounded-lg bg-deepBlue p-2 text-white"}
+        >
           ダウンロード
         </button>
       </div>

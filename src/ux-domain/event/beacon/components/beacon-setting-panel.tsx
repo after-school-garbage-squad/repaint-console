@@ -63,7 +63,7 @@ export const BeaconSettingPanel = () => {
     <PanelCard>
       <p className={"text-lg text-deepBlue"}>登録済みビーコンリスト</p>
       <ul className={"flex flex-col gap-2"}>
-        {selectEvent?.spots &&
+        {selectEvent?.spots ? (
           selectEvent?.spots.map((spot) => (
             <li
               key={spot.hwId}
@@ -74,7 +74,10 @@ export const BeaconSettingPanel = () => {
               <p>{spot.name}</p>
               <BeaconSettingDialog beacon={spot} />
             </li>
-          ))}
+          ))
+        ) : (
+          <p>登録されているビーコンはありません</p>
+        )}
       </ul>
     </PanelCard>
   );

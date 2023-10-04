@@ -2,7 +2,7 @@ export const controlTrafic = async (
   idToken: string,
   eventId: string,
   to: string,
-  from?: string
+  from?: string,
 ) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/event/${eventId}/traffic/control`,
@@ -13,7 +13,7 @@ export const controlTrafic = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ from, to }),
-    }
+    },
   );
 
   if (!response.ok) {

@@ -31,7 +31,7 @@ export const createEvent = async ({
         hpUrl,
         contact,
       }),
-    }
+    },
   );
 
   return response.json();
