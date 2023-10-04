@@ -15,12 +15,19 @@ import { PanelCard } from "../../components/panel-card";
 
 import { Dialog } from "@/components/dialog";
 import { getIdToken } from "@/domain/auth/api/get-id-token";
+import { getEventList } from "@/domain/event/api/get-event-list";
 import { getImageUrl } from "@/domain/event/api/get-image-url";
 import { registerDefaultImage } from "@/domain/event/api/register-default-image";
-import { selectEventIdAtom } from "@/domain/event/store/atom";
+import {
+  eventListAtom,
+  selectEventAtom,
+  selectEventIdAtom,
+} from "@/domain/event/store/atom";
 
 const EventDefaultImageSetDialog = () => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const setEventList = useAtom(eventListAtom)[1];
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectEventId] = useAtom(selectEventIdAtom);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
@@ -41,23 +48,26 @@ const EventDefaultImageSetDialog = () => {
     const data: FormData = new FormData();
     data.append("image", inputRef.current?.files?.[0] as Blob);
 
-    registerDefaultImage(idToken, selectEventId, data);
+    await registerDefaultImage(idToken, selectEventId, data);
+    const newEventList = await getEventList(idToken);
+    setEventList(newEventList);
+    setIsDialogOpen(false);
   };
 
   return (
     <Dialog
+      open={isDialogOpen}
+      onOpenChange={() => setIsDialogOpen(!isDialogOpen)}
       trigger={
         <button className={"rounded-lg bg-deepBlue p-2 text-white"}>
           画像の追加
         </button>
-      }
-    >
+      }>
       <div className={"flex flex-col gap-4"}>
         <p className={"text-lg text-deepBlue"}>イベントデフォルト画像の追加</p>
         <button
           onClick={() => inputRef.current?.click()}
-          className={"w-max rounded-lg bg-deepBlue px-4 py-2 text-white"}
-        >
+          className={"w-max rounded-lg bg-deepBlue px-4 py-2 text-white"}>
           画像のアップロード
         </button>
         <input
@@ -76,8 +86,7 @@ const EventDefaultImageSetDialog = () => {
           <div className={"mt-4 flex justify-end"}>
             <button
               className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
-              onClick={onSubmit}
-            >
+              onClick={onSubmit}>
               追加する
             </button>
           </div>
@@ -87,9 +96,9 @@ const EventDefaultImageSetDialog = () => {
   );
 };
 
-export const EventDefaultImageSetPanel: React.FC<{
-  imageidList: string[];
-}> = ({ imageidList }) => {
+export const EventDefaultImageSetPanel: React.FC = () => {
+  const [selectEvent] = useAtom(selectEventAtom);
+
   // TODO: 切り分ける
   const [imageList, setImageList] = useState<
     | {
@@ -105,11 +114,17 @@ export const EventDefaultImageSetPanel: React.FC<{
     const initImageList = async () => {
       const idToken = await getIdToken();
       if (!idToken) return;
-      const urls = imageidList.map(async (imageId) => {
+
+      if (selectEvent?.images === undefined) return;
+      const imageIdList = selectEvent.images;
+
+      const urls = imageIdList.map(async (imageId) => {
         const url = await getImageUrl(idToken, selectEventId, imageId);
         return { imageId, url };
       });
       const result = await Promise.all(urls);
+
+      console.log(result);
       setImageList(result);
     };
     initImageList();
@@ -124,8 +139,7 @@ export const EventDefaultImageSetPanel: React.FC<{
       <div className={"flex gap-2"}>
         <button
           className={"rounded-lg bg-red px-4 py-2 text-white disabled:bg-gray"}
-          disabled={!!imageList}
-        >
+          disabled={!!imageList}>
           現在の画像を削除
         </button>
         <EventDefaultImageSetDialog />
@@ -136,8 +150,7 @@ export const EventDefaultImageSetPanel: React.FC<{
           pagination
           navigation
           slidesPerView={1}
-          modules={[Navigation, Pagination]}
-        >
+          modules={[Navigation, Pagination]}>
           {imageList &&
             imageList.map((image) => (
               <SwiperSlide key={image.imageId}>

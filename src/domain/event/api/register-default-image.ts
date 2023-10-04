@@ -18,5 +18,5 @@ export const registerDefaultImage = async (
     throw new Error("デフォルト画像の登録に失敗しました");
   }
 
-  return response.json();
+  return response
 };
