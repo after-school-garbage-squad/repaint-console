@@ -1,7 +1,7 @@
 export const registerDefaultImage = async (
   idToken: string,
   eventID: string,
-  formData: FormData
+  formData: FormData,
 ) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/event/${eventID}/image/register-default`,
@@ -11,7 +11,7 @@ export const registerDefaultImage = async (
         Authorization: `Bearer ${idToken}`,
       },
       body: formData,
-    }
+    },
   );
 
   if (!response.ok) {

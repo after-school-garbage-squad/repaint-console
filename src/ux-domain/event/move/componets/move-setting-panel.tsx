@@ -59,17 +59,21 @@ export const MoveSettingPanel = () => {
                 setMoveTo(e!.value);
               }}
               id="move-to"
-              options={selectEvent?.spots && selectEvent?.spots.map((spot) => {
-                return { value: spot.spotId, label: spot.name };
-              })}
+              options={
+                selectEvent?.spots &&
+                selectEvent?.spots.map((spot) => {
+                  return { value: spot.spotId, label: spot.name };
+                })
+              }
             />
           </div>
         </div>
         <button
           type={"button"}
+          disabled={!moveFrom || !moveTo}
           onClick={onSubmit}
           className={
-            "mx-auto mt-4 block rounded-lg bg-deepBlue px-4 py-2 text-white"
+            "mx-auto mt-4 block rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
           }
         >
           決定する

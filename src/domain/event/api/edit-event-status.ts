@@ -5,7 +5,7 @@ export const editEventStatus = async (
   event: Event,
   name: string,
   hpUrl: string,
-  contact: Contact
+  contact: Contact,
 ) => {
   // fetch APIを使ってイベント名を更新する
   const response = await fetch(
@@ -22,7 +22,7 @@ export const editEventStatus = async (
         hpUrl,
         contact,
       }),
-    }
+    },
   );
 
   return response.json();

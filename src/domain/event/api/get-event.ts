@@ -9,7 +9,7 @@ export const getEvent = async (idToken: string): Promise<Event[]> => {
       headers: {
         Authorization: `Bearer ${idToken}`,
       },
-    }
+    },
   );
 
   if (!response.ok) {

@@ -29,7 +29,7 @@ const EventDefaultImageSetDialog = () => {
     // DataURLを作成
     if (e.target.files?.[0] === undefined) return;
     reader.readAsDataURL(e.target.files?.[0]);
-    
+
     reader.addEventListener("load", () => {
       setPreviewImage(reader.result as string);
     });
@@ -50,12 +50,14 @@ const EventDefaultImageSetDialog = () => {
         <button className={"rounded-lg bg-deepBlue p-2 text-white"}>
           画像の追加
         </button>
-      }>
+      }
+    >
       <div className={"flex flex-col gap-4"}>
         <p className={"text-lg text-deepBlue"}>イベントデフォルト画像の追加</p>
         <button
           onClick={() => inputRef.current?.click()}
-          className={"w-max rounded-lg bg-deepBlue px-4 py-2 text-white"}>
+          className={"w-max rounded-lg bg-deepBlue px-4 py-2 text-white"}
+        >
           画像のアップロード
         </button>
         <input
@@ -74,7 +76,8 @@ const EventDefaultImageSetDialog = () => {
           <div className={"mt-4 flex justify-end"}>
             <button
               className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
-              onClick={onSubmit}>
+              onClick={onSubmit}
+            >
               追加する
             </button>
           </div>
@@ -121,7 +124,8 @@ export const EventDefaultImageSetPanel: React.FC<{
       <div className={"flex gap-2"}>
         <button
           className={"rounded-lg bg-red px-4 py-2 text-white disabled:bg-gray"}
-          disabled={!!imageList}>
+          disabled={!!imageList}
+        >
           現在の画像を削除
         </button>
         <EventDefaultImageSetDialog />
@@ -132,7 +136,8 @@ export const EventDefaultImageSetPanel: React.FC<{
           pagination
           navigation
           slidesPerView={1}
-          modules={[Navigation, Pagination]}>
+          modules={[Navigation, Pagination]}
+        >
           {imageList &&
             imageList.map((image) => (
               <SwiperSlide key={image.imageId}>

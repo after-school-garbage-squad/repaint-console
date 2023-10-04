@@ -23,7 +23,7 @@ export const BeaconStatePanel = () => {
       </div>
       <div className={"mt-2 w-full"}>
         <ul className={"flex flex-col gap-4 md:flex-row"}>
-          {selectEvent?.spots &&
+          {selectEvent?.spots ? (
             selectEvent?.spots.map((spot) => (
               <li
                 key={spot.hwId}
@@ -39,7 +39,10 @@ export const BeaconStatePanel = () => {
                   />
                 )}
               </li>
-            ))}
+            ))
+          ) : (
+            <p>登録されているビーコンがありません</p>
+          )}
         </ul>
       </div>
     </PanelCard>
