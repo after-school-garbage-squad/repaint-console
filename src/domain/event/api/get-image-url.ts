@@ -1,7 +1,7 @@
 export const getImageUrl = async (
-  imageId: string,
+  idToken: string,
   eventId: string,
-  idToken: string
+  imageId: string,
 ): Promise<string> => {
   const url = new URL(
     `/admin/event/${eventId}/image/proxy?eventImageId=${imageId}`,
@@ -10,7 +10,6 @@ export const getImageUrl = async (
 
   const response = await fetch(url, {
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${idToken}`,
     },
     method: "GET",
