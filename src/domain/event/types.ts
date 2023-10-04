@@ -18,6 +18,6 @@ export type Event = {
   name: string;
   hpUrl: string;
   spots: Beacon[];
-  image_id: string[];
+  images: string[];
   contact: Contact;
 };

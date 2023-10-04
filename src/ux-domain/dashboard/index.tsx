@@ -8,7 +8,7 @@ import { EventCreateDialog } from "./components/craete-event-dialog";
 import { DashBoardHeader } from "./components/header";
 
 import { getIdToken } from "@/domain/auth/api/get-id-token";
-import { getEvent } from "@/domain/event/api/get-event";
+import { getEventList } from "@/domain/event/api/get-event-list";
 import { eventListAtom } from "@/domain/event/store/atom";
 import { ProjectCard } from "@/ux-domain/dashboard/components/project-card";
 
@@ -20,7 +20,7 @@ export default function DashboardPage() {
     const fetchEventList = async () => {
       try {
         const idToken = await getIdToken();
-        const response = await getEvent(idToken);
+        const response = await getEventList(idToken);
         if (!isMounted) {
           setEventList(response);
         }
