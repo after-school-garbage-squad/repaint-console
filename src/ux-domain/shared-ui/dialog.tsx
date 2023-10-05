@@ -24,7 +24,7 @@ export const Dialog: FC<DialogProps> = ({
       <RadixDialog.Overlay className="fixed inset-0 z-40 bg-black opacity-30" />
       <RadixDialog.Content className="fixed left-1/2 top-1/2 z-50 min-h-[384px] w-[90%] max-w-sm  -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-4 pb-4 pt-8 shadow-lg md:w-full md:max-w-2xl">
         <RadixDialog.Close className={"absolute right-4 top-4"}>
-          <Cross2Icon />
+          <Cross2Icon width={24} height={24} />
         </RadixDialog.Close>
         {children}
       </RadixDialog.Content>
