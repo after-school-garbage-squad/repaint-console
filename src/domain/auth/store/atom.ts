@@ -1,3 +1,6 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export const IdTokenAtom = atom<string | null>(null);
+export const inviteTokenAtom = atomWithStorage<string | null>(
+  "inviteToken",
+  null,
+);
