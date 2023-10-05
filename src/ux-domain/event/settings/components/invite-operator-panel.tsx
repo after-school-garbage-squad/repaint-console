@@ -36,7 +36,7 @@ export const EventSettingPanelDialog = () => {
   const [selectEventId] = useAtom(selectEventIdAtom);
 
   const onSubmit: SubmitHandler<z.infer<typeof inviteOperatorSchema>> = async (
-    data
+    data,
   ) => {
     setisLoading(true);
     const idToken = await getIdToken();
@@ -53,12 +53,14 @@ export const EventSettingPanelDialog = () => {
         <button className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}>
           招待する
         </button>
-      }>
+      }
+    >
       <div className={"flex h-full flex-col gap-7"}>
         <Title className={"text-lg text-deepBlue"}>メンバーを招待する</Title>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className={"flex h-full flex-col items-center justify-center gap-2"}>
+          className={"flex h-full flex-col items-center justify-center gap-2"}
+        >
           <div className="w-full">
             <label htmlFor="email">招待するメンバーのメールアドレス</label>
             <input
@@ -78,7 +80,8 @@ export const EventSettingPanelDialog = () => {
             }
             disabled={!isDirty || !isValid || isLoading}
             type={"submit"}
-            aria-label="指定したメールアドレスに対して招待する">
+            aria-label="指定したメールアドレスに対して招待する"
+          >
             招待する
           </button>
         </form>

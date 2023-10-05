@@ -6,7 +6,7 @@ export const getSpotList = async (idToken: string, eventId: string) => {
       headers: {
         Authorization: `Bearer ${idToken}`,
       },
-    }
+    },
   );
 
   if (!response.ok) {

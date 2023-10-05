@@ -38,7 +38,8 @@ const NavigationIconButton: FC<NavigationIconButtonProps> = ({
           <Tooltip.Content
             sideOffset={5}
             alignOffset={10}
-            className={"rounded-lg bg-white p-3 shadow-xl"}>
+            className={"rounded-lg bg-white p-3 shadow-xl"}
+          >
             {text}
           </Tooltip.Content>
         </Tooltip.Portal>
@@ -51,7 +52,8 @@ export const EventConsoleHeader = () => {
   const [selectEvent] = useAtom(selectEventAtom);
   return (
     <header
-      className={"flex h-12 w-full items-center justify-between bg-white px-4"}>
+      className={"flex h-12 w-full items-center justify-between bg-white px-4"}
+    >
       <Link href={"/dashboard"}>
         <Image src={"/icon.png"} alt="repaintのロゴ" width={44} height={44} />
       </Link>

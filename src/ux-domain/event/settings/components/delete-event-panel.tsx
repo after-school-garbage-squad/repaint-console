@@ -38,10 +38,12 @@ export const DeleteEventDialog = () => {
       trigger={
         <button
           className={"mt-2 rounded-lg bg-red px-4 py-2 text-white"}
-          aria-label="イベントを削除する">
+          aria-label="イベントを削除する"
+        >
           イベントを削除する
         </button>
-      }>
+      }
+    >
       <div className={"flex flex-col gap-4"}>
         <p className={"flex-1 text-lg text-deepBlue"}>
           イベントを削除しますか？
@@ -50,14 +52,16 @@ export const DeleteEventDialog = () => {
           <Close asChild>
             <button
               className={"flex-1 rounded-lg bg-deepBlue px-4 py-2 text-white"}
-              aria-label="イベントを削除をキャンセルする">
+              aria-label="イベントを削除をキャンセルする"
+            >
               キャンセル
             </button>
           </Close>
           <button
             onClick={onSubmit}
             className={"flex-1 rounded-lg bg-red px-4 py-2 text-white"}
-            aria-label="イベントを削除を確定する">
+            aria-label="イベントを削除を確定する"
+          >
             削除する
           </button>
         </div>

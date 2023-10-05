@@ -89,7 +89,8 @@ const SpotEditContent: FC<SpotEditContentProps> = ({ spot, onSubmit }) => {
       <button
         onClick={onSubmit}
         className={"mt-4 rounded-lg bg-red px-4 py-2 text-white"}
-        aria-label="ビーコンをイベントから削除する">
+        aria-label="ビーコンをイベントから削除する"
+      >
         削除する
       </button>
     </>
@@ -116,7 +117,7 @@ export const BeaconSettingDialog: FC<SpotSettingDialogProps> = ({ spot }) => {
           };
         }
         return event;
-      })
+      }),
     );
 
     setIsDialogOpen(false);
@@ -130,18 +131,21 @@ export const BeaconSettingDialog: FC<SpotSettingDialogProps> = ({ spot }) => {
         <button className={"hover:text-deepBlue"}>
           <Icon height={24} width={24} icon={"ri:settings-5-line"} />
         </button>
-      }>
+      }
+    >
       <Title className={"text-lg text-deepBlue"}>ビーコン詳細</Title>
       <Tabs.Root defaultValue="tab1" className="mt-2">
         <Tabs.List className={"flex gap-2"}>
           <Tabs.Trigger
             value="tab1"
-            className="flex-1 rounded-lg border-2 border-gray p-1 data-[state=active]:border-deepBlue">
+            className="flex-1 rounded-lg border-2 border-gray p-1 data-[state=active]:border-deepBlue"
+          >
             ビーコン詳細
           </Tabs.Trigger>
           <Tabs.Trigger
             value="tab2"
-            className="flex-1 rounded-lg border-2 border-gray p-1 data-[state=active]:border-deepBlue">
+            className="flex-1 rounded-lg border-2 border-gray p-1 data-[state=active]:border-deepBlue"
+          >
             ビーコンQRコード
           </Tabs.Trigger>
         </Tabs.List>
@@ -170,7 +174,8 @@ export const BeaconSettingPanel = () => {
               key={spot.hwId}
               className={
                 "flex items-center justify-between border-b-2 border-gray py-1"
-              }>
+              }
+            >
               <p>{spot.name}</p>
               <BeaconSettingDialog spot={spot} />
             </li>

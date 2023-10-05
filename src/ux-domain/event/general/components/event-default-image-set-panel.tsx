@@ -13,6 +13,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import { PanelCard } from "../../components/panel-card";
 
+import type { Swiper as SwiperType } from "swiper/core";
+
 import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { getEventList } from "@/domain/event/api/get-event-list";
 import { getImageUrl } from "@/domain/event/api/get-image-url";
@@ -63,12 +65,14 @@ const EventDefaultImageSetDialog = () => {
         <button className={"rounded-lg bg-deepBlue p-2 text-white"}>
           画像の追加
         </button>
-      }>
+      }
+    >
       <div className={"flex flex-col gap-4"}>
         <p className={"text-lg text-deepBlue"}>イベントデフォルト画像の追加</p>
         <button
           onClick={() => inputRef.current?.click()}
-          className={"w-max rounded-lg bg-deepBlue px-4 py-2 text-white"}>
+          className={"w-max rounded-lg bg-deepBlue px-4 py-2 text-white"}
+        >
           画像のアップロード
         </button>
         <input
@@ -94,7 +98,8 @@ const EventDefaultImageSetDialog = () => {
         <div className={"mt-4 flex justify-end"}>
           <button
             className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
-            onClick={onSubmit}>
+            onClick={onSubmit}
+          >
             追加する
           </button>
         </div>
@@ -105,6 +110,9 @@ const EventDefaultImageSetDialog = () => {
 
 export const EventDefaultImageSetPanel: React.FC = () => {
   const [selectEvent] = useAtom(selectEventAtom);
+  const [eventList, setEventlist] = useAtom(eventListAtom);
+  const [activeIndex, setAvtiveIndex] = useState<number>(0);
+  const [selectEventId] = useAtom(selectEventIdAtom);
 
   // TODO: 切り分ける
   const [imageList, setImageList] = useState<
@@ -115,7 +123,9 @@ export const EventDefaultImageSetPanel: React.FC = () => {
     | null
   >(null);
 
-  const [selectEventId] = useAtom(selectEventIdAtom);
+  const getActiveIndex = (swiper: SwiperType) => {
+    setAvtiveIndex(swiper.activeIndex);
+  };
 
   useEffect(() => {
     const initImageList = async () => {
@@ -130,12 +140,27 @@ export const EventDefaultImageSetPanel: React.FC = () => {
         return { imageId, url };
       });
       const result = await Promise.all(urls);
-      console.log(result);
       setImageList(result);
     };
     initImageList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectEvent]);
+
+  const handleDeleteImage = async () => {
+    const idToken = await getIdToken();
+    if (!idToken) return;
+    const imageId = imageList?.[activeIndex].imageId;
+    if (!imageId) return;
+    setEventlist(
+      eventList.map((event) => {
+        if (event.eventId !== selectEventId) return event;
+        return {
+          ...event,
+          images: event.images.filter((image) => image !== imageId),
+        };
+      }),
+    );
+  };
 
   return (
     <PanelCard className={"flex flex-col gap-4"}>
@@ -146,25 +171,28 @@ export const EventDefaultImageSetPanel: React.FC = () => {
       <div className={"flex gap-2"}>
         <button
           className={"rounded-lg bg-red px-4 py-2 text-white disabled:bg-gray"}
-          disabled={!!imageList}>
+          disabled={!imageList}
+          onClick={handleDeleteImage}
+        >
           現在の画像を削除
         </button>
       </div>
       <div className={"flex-auto"}>
         <Swiper
-          className={"grid place-items-center"}
+          className={"grid max-h-64 max-w-[256px] place-items-center"}
           pagination
           navigation
           slidesPerView={1}
-          modules={[Navigation, Pagination]}>
+          modules={[Navigation, Pagination]}
+          onSlideChangeTransitionEnd={getActiveIndex}
+        >
           {imageList &&
             imageList.map((image) => (
-              <SwiperSlide key={image.imageId}>
-                <img
-                  src={image.url}
-                  alt="デフォルトイメージ"
-                  className="block h-full w-full object-contain"
-                />
+              <SwiperSlide
+                className="h-full w-full object-contain"
+                key={image.imageId}
+              >
+                <img src={image.url} alt="デフォルトイメージ" />
               </SwiperSlide>
             ))}
         </Swiper>

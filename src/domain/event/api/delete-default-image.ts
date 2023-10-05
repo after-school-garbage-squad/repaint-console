@@ -1,23 +1,22 @@
-export const deleteSpot = async (
+export const deleteDefaultImage = async (
   idToken: string,
   eventId: string,
-  spotId: string,
+  imageId: string,
 ) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/admin/event/${eventId}/spot/delete`,
+    `${process.env.NEXT_PUBLIC_API_URL}/admin/event/${eventId}/image/delete-default`,
     {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${idToken}`,
         "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
       },
       body: JSON.stringify({
-        spotId,
+        imageId,
       }),
     },
   );
-
   if (!response.ok) {
-    throw new Error("スポットの削除に失敗しました");
+    throw new Error(response.statusText);
   }
 };
