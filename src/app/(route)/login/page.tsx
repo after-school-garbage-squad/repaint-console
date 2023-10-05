@@ -16,7 +16,7 @@ export default function LoginPage() {
           height={200}
         />
         <button
-          onClick={() => router.push("/api/auth/login")}
+          onClick={() => router.push("/api/auth/login?returnTo=/dashboard")}
           className={"h-12 w-48 rounded-lg bg-deepBlue text-white"}
         >
           ログイン

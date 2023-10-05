@@ -58,7 +58,7 @@ export const EventSettingPanelDialog = () => {
       }
     >
       <div className={"flex h-full flex-col gap-7"}>
-        <Title className={"text-lg text-deepBlue"}>メンバーを招待する</Title>
+        <Title className={"text-lg"}>メンバーを招待する</Title>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={"flex h-full flex-col items-center justify-center gap-2"}
@@ -95,7 +95,7 @@ export const EventSettingPanelDialog = () => {
 export const InviteOperaotPanel = () => {
   return (
     <PanelCard className={"flex items-center justify-between"}>
-      <p className={"text-lg text-deepBlue"}>メンバー招待</p>
+      <h2 className={"text-lg"}>メンバー招待</h2>
       <EventSettingPanelDialog />
     </PanelCard>
   );

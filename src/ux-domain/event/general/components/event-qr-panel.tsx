@@ -27,7 +27,7 @@ export const EventQrPanel = () => {
   return (
     <PanelCard className={"flex flex-col"}>
       <div className={"flex items-center justify-between"}>
-        <p className={"text-lg text-deepBlue"}>イベントQRコード</p>
+        <h2 className={"text-lg"}>イベントQRコード</h2>
         <button
           onClick={handleSaveImage}
           className={"rounded-lg bg-deepBlue p-2 text-white"}

@@ -124,7 +124,7 @@ const SpotEditContent: FC<SpotEditContentProps> = ({ spot, onSubmit }) => {
             htmlFor="pickable-mode-toggle"
             className="w-max border-b-2 border-gray px-2 text-sm text-zinc-700"
           >
-            ピック可能スポット
+            ピック可能切り替え
           </label>
           <Switch.Root
             onCheckedChange={onhandleSwitchChange}
@@ -217,17 +217,26 @@ export const BeaconSettingPanel = () => {
 
   return (
     <PanelCard>
-      <p className={"text-lg text-deepBlue"}>登録済みスポットリスト</p>
-      <ul className={"flex flex-col gap-2"}>
+      <h2 className={"text-lg "}>登録済みスポットリスト</h2>
+      <ul className={"mt-4 flex flex-col gap-2"}>
         {selectEvent?.spots ? (
           selectEvent?.spots.map((spot) => (
             <li
               key={spot.hwId}
               className={
-                "flex items-center justify-between border-b-2 border-gray py-1"
+                "flex w-full items-center justify-between gap-4 border-b-2 border-gray px-2 py-1"
               }
             >
-              <p>{spot.name}</p>
+              <p className={"max-w-[268px] flex-1 break-words text-center"}>
+                {spot.name}
+                {spot.name}
+                {spot.name}
+                {spot.name}
+                {spot.name}
+                {spot.name}
+                {spot.name}
+                {spot.name}
+              </p>
               <BeaconSettingDialog spot={spot} />
             </li>
           ))
