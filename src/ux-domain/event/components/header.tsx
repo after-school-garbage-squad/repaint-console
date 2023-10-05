@@ -4,15 +4,14 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Icon } from "@/components/Icon";
 import { selectEventAtom } from "@/domain/event/store/atom";
+import { Icon } from "@/ux-domain/shared-ui/icon";
 
 export const EventConsoleHeader = () => {
   const [selectEvent] = useAtom(selectEventAtom);
   return (
     <header
-      className={"flex h-12 w-full items-center justify-between bg-white px-4"}
-    >
+      className={"flex h-12 w-full items-center justify-between bg-white px-4"}>
       <Link href={"/dashboard"}>
         <Image src={"/icon.png"} alt="repaintのロゴ" width={44} height={44} />
       </Link>

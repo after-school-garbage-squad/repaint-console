@@ -8,11 +8,11 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import type { z } from "zod";
 
-import { Dialog } from "@/components/dialog";
 import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { createEvent } from "@/domain/event/api/create-event";
 import { EventFormSchema } from "@/domain/event/schema/event-form-schema";
 import { eventListAtom } from "@/domain/event/store/atom";
+import { Dialog } from "@/ux-domain/shared-ui/dialog";
 
 type EventCreateFormInputProps = {
   label: string;

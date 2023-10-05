@@ -13,7 +13,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import { PanelCard } from "../../components/panel-card";
 
-import { Dialog } from "@/components/dialog";
 import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { getEventList } from "@/domain/event/api/get-event-list";
 import { getImageUrl } from "@/domain/event/api/get-image-url";
@@ -23,6 +22,7 @@ import {
   selectEventAtom,
   selectEventIdAtom,
 } from "@/domain/event/store/atom";
+import { Dialog } from "@/ux-domain/shared-ui/dialog";
 
 const EventDefaultImageSetDialog = () => {
   const inputRef = useRef<HTMLInputElement>(null);

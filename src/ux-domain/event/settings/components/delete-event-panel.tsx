@@ -8,10 +8,10 @@ import { useRouter } from "next/navigation";
 
 import { PanelCard } from "../../components/panel-card";
 
-import { Dialog } from "@/components/dialog";
 import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { deleteEvent } from "@/domain/event/api/delete-event";
 import { selectEventIdAtom } from "@/domain/event/store/atom";
+import { Dialog } from "@/ux-domain/shared-ui/dialog";
 
 export const DeleteEventDialog = () => {
   const router = useRouter();
