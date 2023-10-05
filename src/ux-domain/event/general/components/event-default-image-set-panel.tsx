@@ -172,7 +172,7 @@ export const EventDefaultImageSetPanel: React.FC = () => {
   return (
     <PanelCard className={"flex flex-col gap-4"}>
       <div className={"flex items-center justify-between"}>
-        <p className={"text-lg text-deepBlue"}>デフォルト画像の設定</p>
+        <h2 className={"text-lg "}>デフォルト画像の設定</h2>
         <EventDefaultImageSetDialog />
       </div>
       <div className={"flex gap-2"}>
@@ -186,7 +186,7 @@ export const EventDefaultImageSetPanel: React.FC = () => {
       </div>
       <div className={"flex-auto"}>
         <Swiper
-          className={"mx-4 grid max-h-64 max-w-[256px] place-items-center"}
+          className={"grid h-64 w-64 place-items-center"}
           pagination
           navigation
           slidesPerView={1}
@@ -196,10 +196,16 @@ export const EventDefaultImageSetPanel: React.FC = () => {
           {imageList &&
             imageList.map((image) => (
               <SwiperSlide
-                className="h-full w-full object-contain"
+                className="grid h-full w-full place-items-center"
                 key={image.imageId}
               >
-                <img src={image.url} alt="デフォルトイメージ" />
+                <div className="mx-auto block h-full w-full">
+                  <img
+                    className="mx-auto h-full w-4/5 object-contain"
+                    src={image.url}
+                    alt="デフォルトイメージ"
+                  />
+                </div>
               </SwiperSlide>
             ))}
         </Swiper>

@@ -111,7 +111,7 @@ export const EventSettingPanel = () => {
   return (
     <PanelCard>
       <div className={"flex items-center justify-between"}>
-        <p className={"text-lg text-deepBlue"}>その他設定</p>
+        <h2 className={"text-lg"}>その他設定</h2>
         <button
           onClick={toggleEditMode}
           disabled={isEditable}

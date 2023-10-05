@@ -28,7 +28,7 @@ export const BeaconStatePanel = () => {
     const filteredList = trafficList
       .map((traffic) => {
         const spot = selectEvent.spots.find(
-          (spot) => spot.spotId === traffic.spotId
+          (spot) => spot.spotId === traffic.spotId,
         );
         if (!spot) return;
         return { ...spot, ...traffic } as SpotWithTrafficStatus;
@@ -49,7 +49,8 @@ export const BeaconStatePanel = () => {
 
       poring = setInterval(
         async () => await setTrafficList(idToken, selectEvent),
-        3000
+        // eslint-disable-next-line unicorn/numeric-separators-style
+        10000,
       );
     })();
 
@@ -70,23 +71,31 @@ export const BeaconStatePanel = () => {
         </span>
       </div>
       <div className={"mt-2 w-full"}>
-        <ul className={"flex flex-col gap-4 md:flex-row"}>
+        <ul
+          className={
+            "grid grid-flow-col grid-cols-1 gap-4 md:grid-flow-row md:grid-cols-2"
+          }
+        >
           {spotWithtrafficStatusList ? (
             spotWithtrafficStatusList.map((spot) => (
               <li
                 key={spot.hwId}
                 className={
-                  "flex w-full items-center justify-center gap-2 border-b-2 border-gray px-4 py-2 md:w-max"
+                  "flex w-full flex-col flex-wrap items-center justify-center gap-2 rounded-lg border-2 border-gray px-4 py-2 shadow-lg "
                 }
               >
-                <p>{spot.headCount}</p>
-                <p>{spot.name}</p>
-                {spot.bonus && (
-                  <Icon
-                    icon={"ri:checkbox-blank-circle-fill"}
-                    className={"h-max w-max text-rose-500"}
-                  />
-                )}
+                <div className={"flex items-center gap-2"}>
+                  <p>{spot.name}</p>
+                  {spot.bonus && (
+                    <Icon
+                      icon={"ri:checkbox-blank-circle-fill"}
+                      className={"h-max w-max text-rose-500"}
+                    />
+                  )}
+                </div>
+                <div>
+                  <p>直近の周囲の人数： {spot.headCount}人</p>
+                </div>
               </li>
             ))
           ) : (
