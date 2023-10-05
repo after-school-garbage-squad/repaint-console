@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 
-export const fetchCache = "force-no-store";
-
 export const GET = async () => {
   const { getSession } = await import("@auth0/nextjs-auth0");
   const session = await getSession();

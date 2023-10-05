@@ -1,14 +1,21 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { useAtom } from "jotai";
 
 import { PanelCard } from "../../components/panel-card";
 
-import { Icon } from "@/components/Icon";
 import { selectEventAtom } from "@/domain/event/store/atom";
+import { Icon } from "@/ux-domain/shared-ui/icon";
 
 export const BeaconStatePanel = () => {
   const [selectEvent] = useAtom(selectEventAtom);
+
+  useEffect(() => {
+    console.log(selectEvent?.spots);
+  }, [selectEvent]);
+
   return (
     <PanelCard className={"w-full max-w-7xl"}>
       <div className={"flex flex-wrap gap-4"}>
@@ -29,8 +36,7 @@ export const BeaconStatePanel = () => {
                 key={spot.hwId}
                 className={
                   "flex w-full items-center justify-center gap-2 border-b-2 border-gray px-4 py-2 md:w-max"
-                }
-              >
+                }>
                 <p>{spot.name}</p>
                 {spot.bonus && (
                   <Icon

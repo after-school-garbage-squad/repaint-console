@@ -12,11 +12,11 @@ import { PanelCard } from "../../components/panel-card";
 import type { SubmitHandler } from "react-hook-form";
 import type { z } from "zod";
 
-import { Dialog } from "@/components/dialog";
 import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { inviteOperator } from "@/domain/event/api/invite-operator";
 import { inviteOperatorSchema } from "@/domain/event/schema/invite-operator-schema";
 import { selectEventIdAtom } from "@/domain/event/store/atom";
+import { Dialog } from "@/ux-domain/shared-ui/dialog";
 
 export const EventSettingPanelDialog = () => {
   const {
