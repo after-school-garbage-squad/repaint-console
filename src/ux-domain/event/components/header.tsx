@@ -58,7 +58,7 @@ export const EventConsoleHeader = () => {
         <Image src={"/icon.png"} alt="repaintのロゴ" width={44} height={44} />
       </Link>
       <h1>{selectEvent?.name}</h1>
-      <div className={"flex justify-center gap-2"}>
+      <nav className={"flex justify-center gap-2"}>
         <NavigationIconButton
           href={"./general"}
           icon={"ri:file-list-2-line"}
@@ -79,7 +79,7 @@ export const EventConsoleHeader = () => {
           href={"./settings"}
           text={"その他"}
         />
-      </div>
+      </nav>
     </header>
   );
 };

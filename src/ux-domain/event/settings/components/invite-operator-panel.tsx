@@ -22,6 +22,7 @@ export const EventSettingPanelDialog = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isDirty, isValid },
   } = useForm<z.infer<typeof inviteOperatorSchema>>({
     mode: "onChange",
@@ -42,6 +43,7 @@ export const EventSettingPanelDialog = () => {
     const idToken = await getIdToken();
     await inviteOperator(idToken, selectEventId, data.email);
     setisLoading(false);
+    reset();
     setIsDialogOpen(false);
   };
 

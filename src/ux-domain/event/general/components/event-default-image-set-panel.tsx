@@ -16,6 +16,7 @@ import { PanelCard } from "../../components/panel-card";
 import type { Swiper as SwiperType } from "swiper/core";
 
 import { getIdToken } from "@/domain/auth/api/get-id-token";
+import { deleteDefaultImage } from "@/domain/event/api/delete-default-image";
 import { getEventList } from "@/domain/event/api/get-event-list";
 import { getImageUrl } from "@/domain/event/api/get-image-url";
 import { registerDefaultImage } from "@/domain/event/api/register-default-image";
@@ -151,6 +152,9 @@ export const EventDefaultImageSetPanel: React.FC = () => {
     if (!idToken) return;
     const imageId = imageList?.[activeIndex].imageId;
     if (!imageId) return;
+
+    await deleteDefaultImage(idToken, selectEventId, imageId);
+
     setEventlist(
       eventList.map((event) => {
         if (event.eventId !== selectEventId) return event;
@@ -179,7 +183,7 @@ export const EventDefaultImageSetPanel: React.FC = () => {
       </div>
       <div className={"flex-auto"}>
         <Swiper
-          className={"grid max-h-64 max-w-[256px] place-items-center"}
+          className={"mx-4 grid max-h-64 max-w-[256px] place-items-center"}
           pagination
           navigation
           slidesPerView={1}
