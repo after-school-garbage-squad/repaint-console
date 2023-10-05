@@ -51,6 +51,7 @@ const EventDefaultImageSetDialog = () => {
     await registerDefaultImage(idToken, selectEventId, data);
     const newEventList = await getEventList(idToken);
     setEventList(newEventList);
+    setPreviewImage(null);
     setIsDialogOpen(false);
   };
 
@@ -78,20 +79,26 @@ const EventDefaultImageSetDialog = () => {
           accept={"image/*"}
         />
       </div>
-      <div className={"mx-auto aspect-auto max-w-lg object-contain p-4"}>
+      <div className={"mx-auto p-4"}>
         {previewImage && (
-          <img alt="アップロードした画像のプレビュー" src={previewImage} />
-        )}
-        {previewImage && (
-          <div className={"mt-4 flex justify-end"}>
-            <button
-              className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
-              onClick={onSubmit}>
-              追加する
-            </button>
-          </div>
+          <img
+            alt="アップロードした画像のプレビュー"
+            src={previewImage}
+            className={
+              "mx-auto max-h-96 w-full max-w-lg bg-slate-200 object-contain"
+            }
+          />
         )}
       </div>
+      {previewImage && (
+        <div className={"mt-4 flex justify-end"}>
+          <button
+            className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
+            onClick={onSubmit}>
+            追加する
+          </button>
+        </div>
+      )}
     </Dialog>
   );
 };
@@ -134,6 +141,7 @@ export const EventDefaultImageSetPanel: React.FC = () => {
     <PanelCard className={"flex flex-col gap-4"}>
       <div className={"flex items-center justify-between"}>
         <p className={"text-lg text-deepBlue"}>デフォルト画像の設定</p>
+        <EventDefaultImageSetDialog />
       </div>
       <div className={"flex gap-2"}>
         <button
@@ -141,7 +149,6 @@ export const EventDefaultImageSetPanel: React.FC = () => {
           disabled={!!imageList}>
           現在の画像を削除
         </button>
-        <EventDefaultImageSetDialog />
       </div>
       <div className={"flex-auto"}>
         <Swiper
