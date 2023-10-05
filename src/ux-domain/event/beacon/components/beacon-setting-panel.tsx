@@ -4,6 +4,7 @@ import type { FC } from "react";
 import { useState } from "react";
 
 import { Title } from "@radix-ui/react-dialog";
+import * as Switch from "@radix-ui/react-switch";
 import * as Tabs from "@radix-ui/react-tabs";
 import { useAtom } from "jotai";
 import QRCode from "react-qr-code";
@@ -15,6 +16,7 @@ import type { Beacon } from "@/domain/event/types";
 import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { deleteSpot } from "@/domain/event/api/delete-spot";
 import { getEventList } from "@/domain/event/api/get-event-list";
+import { updateSpot } from "@/domain/event/api/update-spot";
 import {
   eventListAtom,
   selectEventAtom,
@@ -41,16 +43,25 @@ const SpotQRContent: FC<SpotQRContentProps> = ({ spot }) => {
 
   return (
     <div className="flex flex-col">
-      <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
-        <QRCode
-          value={JSON.stringify({
-            eventId: selectEventId,
-            spotId: spot.spotId,
-          })}
-          width={250}
-        />
-      </div>
-      <button className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}>
+      {spot.isPick ? (
+        <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
+          <QRCode
+            value={JSON.stringify({
+              eventId: selectEventId,
+              spotId: spot.spotId,
+            })}
+            width={250}
+          />
+        </div>
+      ) : (
+        <div className={"grid h-60 w-full place-items-center"}>
+          <p>ピック可能スポットのみQRコードを表示することができます。</p>
+        </div>
+      )}
+      <button
+        disabled={!spot.isPick}
+        className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
+      >
         保存する
       </button>
     </div>
@@ -58,6 +69,29 @@ const SpotQRContent: FC<SpotQRContentProps> = ({ spot }) => {
 };
 
 const SpotEditContent: FC<SpotEditContentProps> = ({ spot, onSubmit }) => {
+  const [isLoading, setIsLoadin] = useState<boolean>(false);
+  const [selectEventId] = useAtom(selectEventIdAtom);
+  const setEventList = useAtom(eventListAtom)[1];
+
+  const onhandleSwitchChange = async (isPick: boolean) => {
+    setIsLoadin(true);
+    const idToken = await getIdToken();
+    await updateSpot(idToken, selectEventId, spot, isPick);
+    setIsLoadin(false);
+
+    const newEventList = await getEventList(idToken);
+    setEventList(
+      newEventList.map((event) => {
+        if (event.eventId === selectEventId) {
+          return {
+            ...event,
+          };
+        }
+        return event;
+      }),
+    );
+  };
+
   return (
     <>
       <div className={"mt-4 flex flex-col gap-2"}>
@@ -84,6 +118,23 @@ const SpotEditContent: FC<SpotEditContentProps> = ({ spot, onSubmit }) => {
             サービスUUID
           </p>
           <p className={"mx-2 mt-2"}>{spot.serviceUuid}</p>
+        </div>
+        <div className={"flex flex-col"}>
+          <label
+            htmlFor="pickable-mode-toggle"
+            className="w-max border-b-2 border-gray px-2 text-sm text-zinc-700"
+          >
+            ピック可能スポット
+          </label>
+          <Switch.Root
+            onCheckedChange={onhandleSwitchChange}
+            disabled={isLoading}
+            defaultChecked={spot.isPick}
+            id="pickable-mode-toggle"
+            className="relative mx-2 mt-2 h-[25px] w-[42px] cursor-default rounded-full bg-gray outline-none focus:shadow-[0_0_0_2px] data-[state=checked]:bg-deepBlue"
+          >
+            <Switch.Thumb className="block h-[21px] w-[21px] translate-x-0.5 rounded-full bg-white shadow-[0_2px_2px] transition-transform duration-100 will-change-transform data-[state=checked]:translate-x-[19px]" />
+          </Switch.Root>
         </div>
       </div>
       <button
