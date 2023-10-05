@@ -5,7 +5,7 @@ import { EnvelopeClosedIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 
 export const DashBoardHeader = () => {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
 
   return (
     <header
@@ -24,7 +24,7 @@ export const DashBoardHeader = () => {
           <p>ログイン中のアカウント</p>
           <div className={"flex items-center gap-2"}>
             <EnvelopeClosedIcon width={16} height={16} />
-            <p>{user?.email}</p>
+            <p>{isLoading ? "ローディング中..." : user?.email}</p>
           </div>
         </div>
         <a

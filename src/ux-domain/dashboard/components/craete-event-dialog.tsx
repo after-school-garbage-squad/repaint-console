@@ -28,7 +28,8 @@ const EventCreateFormInput = forwardRef<
       <fieldset
         className={
           "grid grid-flow-col grid-rows-[1fr_1fr] items-center md:grid-flow-row md:grid-cols-[180px_1fr] md:grid-rows-[1fr]"
-        }>
+        }
+      >
         <label htmlFor="event-name">{label}</label>
         <input
           ref={ref}
@@ -59,7 +60,7 @@ export const EventCreateDialog = () => {
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof EventFormSchema>> = async (
-    data
+    data,
   ) => {
     const idToken = await getIdToken();
     if (!idToken) return;
@@ -82,7 +83,8 @@ export const EventCreateDialog = () => {
         <button className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}>
           イベント作成
         </button>
-      }>
+      }
+    >
       <h1 className={"text-lg text-deepBlue"}>イベントを作成する</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={"mt-4 flex flex-col gap-4"}>
@@ -133,7 +135,8 @@ export const EventCreateDialog = () => {
               disabled={!isDirty || !isValid}
               className={
                 "rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
-              }>
+              }
+            >
               作成する
             </button>
           </Close>

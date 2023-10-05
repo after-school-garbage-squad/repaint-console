@@ -2,7 +2,7 @@ export const controlTrafic = async (
   idToken: string,
   eventId: string,
   to: string,
-  from?: string
+  from?: string,
 ) => {
   try {
     const response = await fetch(
@@ -14,7 +14,7 @@ export const controlTrafic = async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ from, to }),
-      }
+      },
     );
     if (!response.ok) {
       if (response.status === 404) {
