@@ -114,6 +114,7 @@ export const EventDefaultImageSetPanel: React.FC = () => {
   const [eventList, setEventlist] = useAtom(eventListAtom);
   const [activeIndex, setAvtiveIndex] = useState<number>(0);
   const [selectEventId] = useAtom(selectEventIdAtom);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // TODO: 切り分ける
   const [imageList, setImageList] = useState<
@@ -148,6 +149,7 @@ export const EventDefaultImageSetPanel: React.FC = () => {
   }, [selectEvent]);
 
   const handleDeleteImage = async () => {
+    setIsLoading(true);
     const idToken = await getIdToken();
     if (!idToken) return;
     const imageId = imageList?.[activeIndex].imageId;
@@ -164,6 +166,7 @@ export const EventDefaultImageSetPanel: React.FC = () => {
         };
       }),
     );
+    setIsLoading(false);
   };
 
   return (
@@ -175,7 +178,7 @@ export const EventDefaultImageSetPanel: React.FC = () => {
       <div className={"flex gap-2"}>
         <button
           className={"rounded-lg bg-red px-4 py-2 text-white disabled:bg-gray"}
-          disabled={!imageList}
+          disabled={!imageList?.length || isLoading}
           onClick={handleDeleteImage}
         >
           現在の画像を削除

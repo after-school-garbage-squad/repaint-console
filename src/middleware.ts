@@ -1,5 +1,6 @@
 import {
   getAccessToken,
+  getSession,
   withMiddlewareAuthRequired,
 } from "@auth0/nextjs-auth0/edge";
 import { NextResponse, type NextRequest } from "next/server";
@@ -13,10 +14,14 @@ const afterRefresh = async (session: Session) => {
 
 export default withMiddlewareAuthRequired(async (req: NextRequest) => {
   const res = NextResponse.next();
-  await getAccessToken(req, res, {
-    refresh: true,
-    afterRefresh,
-  });
+  const session = await getSession(req, res);
+
+  if (session?.user) {
+    await getAccessToken(req, res, {
+      refresh: true,
+      afterRefresh,
+    });
+  }
 });
 
 export const config = {

@@ -21,3 +21,8 @@ export type Event = {
   images: string[];
   contact: Contact;
 };
+
+export type Traffic = {
+  spotId: string;
+  headCount: number;
+};
