@@ -123,11 +123,12 @@ export const EventDefaultImageSetPanel: React.FC = () => {
         return { imageId, url };
       });
       const result = await Promise.all(urls);
+      console.log(result);
       setImageList(result);
     };
     initImageList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [selectEvent]);
 
   return (
     <PanelCard className={"flex flex-col gap-4"}>
