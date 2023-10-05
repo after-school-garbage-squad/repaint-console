@@ -24,7 +24,7 @@ export const MoveSettingPanel = () => {
 
   return (
     <PanelCard className="w-full max-w-7xl">
-      <h2 className={"text-lg text-deepBlue"}>回遊施策</h2>
+      <h2 className={"text-lg"}>回遊施策</h2>
       <form onSubmit={onSubmit}>
         <div className={"flex flex-col justify-center gap-8 md:flex-row"}>
           <div className={"flex w-full flex-1 flex-col gap-1"}>
