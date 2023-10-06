@@ -17,8 +17,10 @@ const InvitePage = () => {
   const searchParams = useSearchParams();
 
   const handleSubmit = async () => {
-    setInviteToken(searchParams.get("token"));
-    if (!inviteToken) {
+    const paramsToken = searchParams.get("token");
+    setInviteToken(paramsToken);
+
+    if (!paramsToken) {
       alert("招待トークンがありません");
       return;
     }
@@ -28,7 +30,7 @@ const InvitePage = () => {
     }
 
     const idToken = await getIdToken();
-    await addOperator(idToken, inviteToken);
+    await addOperator(idToken, inviteToken!);
 
     await router.push("/dashboard");
   };
