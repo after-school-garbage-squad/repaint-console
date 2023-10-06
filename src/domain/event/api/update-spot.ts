@@ -4,7 +4,8 @@ export const updateSpot = async (
   idToken: string,
   eventId: string,
   spot: Beacon,
-  isPick: boolean,
+  isPick?: boolean,
+  name?: string,
 ) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/admin/event/${eventId}/spot/update`,
@@ -17,6 +18,7 @@ export const updateSpot = async (
       body: JSON.stringify({
         ...spot,
         isPick,
+        name,
       }),
     },
   );

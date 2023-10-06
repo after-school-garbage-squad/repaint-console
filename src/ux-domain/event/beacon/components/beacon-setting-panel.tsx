@@ -3,20 +3,24 @@
 import type { FC } from "react";
 import { useState } from "react";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Title } from "@radix-ui/react-dialog";
 import * as Switch from "@radix-ui/react-switch";
 import * as Tabs from "@radix-ui/react-tabs";
 import { useAtom } from "jotai";
+import { useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
 
 import { PanelCard } from "../../components/panel-card";
 
 import type { Beacon } from "@/domain/event/types";
+import type { z } from "zod";
 
 import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { deleteSpot } from "@/domain/event/api/delete-spot";
 import { getEventList } from "@/domain/event/api/get-event-list";
 import { updateSpot } from "@/domain/event/api/update-spot";
+import { editSpotSchema } from "@/domain/event/schema/edit-spot-schema";
 import {
   eventListAtom,
   selectEventAtom,
@@ -26,8 +30,8 @@ import { Dialog } from "@/ux-domain/shared-ui/dialog";
 import { Icon } from "@/ux-domain/shared-ui/icon";
 
 type SpotEditContentProps = {
-  onSubmit: () => void;
   spot: Beacon;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type SpotQRContentProps = {
@@ -60,7 +64,9 @@ const SpotQRContent: FC<SpotQRContentProps> = ({ spot }) => {
       )}
       <button
         disabled={!spot.isPick}
-        className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
+        className={
+          "rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
+        }
       >
         保存する
       </button>
@@ -68,16 +74,28 @@ const SpotQRContent: FC<SpotQRContentProps> = ({ spot }) => {
   );
 };
 
-const SpotEditContent: FC<SpotEditContentProps> = ({ spot, onSubmit }) => {
-  const [isLoading, setIsLoadin] = useState<boolean>(false);
+const SpotEditContent: FC<SpotEditContentProps> = ({
+  spot,
+  setIsDialogOpen,
+}) => {
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isDirty, isValid },
+  } = useForm<z.infer<typeof editSpotSchema>>({
+    mode: "onChange",
+    resolver: zodResolver(editSpotSchema),
+  });
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectEventId] = useAtom(selectEventIdAtom);
   const setEventList = useAtom(eventListAtom)[1];
 
   const onhandleSwitchChange = async (isPick: boolean) => {
-    setIsLoadin(true);
     const idToken = await getIdToken();
-    await updateSpot(idToken, selectEventId, spot, isPick);
-    setIsLoadin(false);
+    await updateSpot(idToken, selectEventId, spot, isPick, spot.name);
 
     const newEventList = await getEventList(idToken);
     setEventList(
@@ -92,15 +110,88 @@ const SpotEditContent: FC<SpotEditContentProps> = ({ spot, onSubmit }) => {
     );
   };
 
+  // TODO: ロジックの場所を変えたい
+  const onhandleEditSubmit = async ({ name }: { name: string }) => {
+    setIsLoading(true);
+    const idToken = await getIdToken();
+    if (!selectEventId) return;
+
+    //TODO: updateのレスポンスで書き換える形にする
+    await updateSpot(idToken, selectEventId, spot, spot.isPick, name);
+
+    const newEventList = await getEventList(idToken);
+
+    setEventList(
+      newEventList.map((event) => {
+        if (event.eventId === selectEventId) {
+          return {
+            ...event,
+          };
+        }
+        return event;
+      }),
+    );
+
+    setIsLoading(false);
+  };
+
+  // TODO: ロジックの場所を変えたい
+  const onhandleDeleteSubmit = async () => {
+    setIsLoading(true);
+    const idToken = await getIdToken();
+
+    if (!selectEventId) return;
+    await deleteSpot(idToken, selectEventId, spot.spotId);
+    const newEventList = await getEventList(idToken);
+
+    setEventList(
+      newEventList.map((event) => {
+        if (event.eventId === selectEventId) {
+          return {
+            ...event,
+          };
+        }
+        return event;
+      }),
+    );
+    setIsLoading(false);
+
+    setIsDialogOpen(false);
+  };
+
+  //TODO: focusさせるようにする
+  const onhandleEditModeChange = () => {
+    if (editMode) {
+      reset();
+    }
+    setEditMode(!editMode);
+  };
+
   return (
     <>
       <div className={"mt-4 flex flex-col gap-2"}>
-        <div>
-          <p className="w-max border-b-2 border-gray px-2 text-sm text-zinc-700">
+        <form
+          className="flex flex-col"
+          id="spot-edit-form"
+          onSubmit={handleSubmit(onhandleEditSubmit)}
+        >
+          <label
+            htmlFor="spot-name"
+            className="w-max border-b-2 border-gray px-2 text-sm text-zinc-700"
+          >
             ビーコン名
-          </p>
-          <p className={"mx-2 mt-2"}>{spot.name}</p>
-        </div>
+          </label>
+          <input
+            disabled={!editMode || isLoading}
+            id="spot-name"
+            defaultValue={spot.name}
+            type="text"
+            className={
+              "w-full rounded-lg border-2 border-deepBlue bg-white bg-none p-1 text-lg disabled:border-none"
+            }
+            {...register("name")}
+          />
+        </form>
         <div>
           <p className="w-max border-b-2 border-gray px-2 text-sm text-zinc-700">
             ビーコンHWID
@@ -137,42 +228,53 @@ const SpotEditContent: FC<SpotEditContentProps> = ({ spot, onSubmit }) => {
           </Switch.Root>
         </div>
       </div>
-      <button
-        onClick={onSubmit}
-        className={"mt-4 rounded-lg bg-red px-4 py-2 text-white"}
-        aria-label="ビーコンをイベントから削除する"
-      >
-        削除する
-      </button>
+      <div className={"flex w-full justify-between"}>
+        <button
+          onClick={onhandleDeleteSubmit}
+          className={"mt-4 rounded-lg bg-red px-4 py-2 text-white"}
+          aria-label="ビーコンをイベントから削除する"
+        >
+          削除する
+        </button>
+        {editMode ? (
+          <div className={"flex gap-4"}>
+            <button
+              onClick={onhandleEditModeChange}
+              className={
+                "mt-4 rounded-lg px-4 py-2 text-deepBlue outline-2 outline-deepBlue"
+              }
+            >
+              キャンセル
+            </button>
+            <button
+              disabled={!isDirty || !isValid || isLoading}
+              type="submit"
+              form="spot-edit-form"
+              className={
+                "mt-4 rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
+              }
+            >
+              保存する
+            </button>
+          </div>
+        ) : (
+          <button
+            disabled={editMode}
+            onClick={onhandleEditModeChange}
+            className={
+              "mt-4 rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
+            }
+          >
+            名前を変更する
+          </button>
+        )}
+      </div>
     </>
   );
 };
 
 export const BeaconSettingDialog: FC<SpotSettingDialogProps> = ({ spot }) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [selectEventId] = useAtom(selectEventIdAtom);
-  const setEventList = useAtom(eventListAtom)[1];
-
-  const onSubmit = async () => {
-    const idToken = await getIdToken();
-
-    if (!selectEventId) return;
-    await deleteSpot(idToken, selectEventId, spot.spotId);
-    const newEventList = await getEventList(idToken);
-
-    setEventList(
-      newEventList.map((event) => {
-        if (event.eventId === selectEventId) {
-          return {
-            ...event,
-          };
-        }
-        return event;
-      }),
-    );
-
-    setIsDialogOpen(false);
-  };
 
   return (
     <Dialog
@@ -189,21 +291,20 @@ export const BeaconSettingDialog: FC<SpotSettingDialogProps> = ({ spot }) => {
         <Tabs.List className={"flex gap-2"}>
           <Tabs.Trigger
             value="tab1"
-            className="flex-1 rounded-lg border-2 border-gray p-1 data-[state=active]:border-deepBlue"
+            className="flex-1 rounded-lg border-2 border-deepBlue p-1 data-[state=active]:bg-deepBlue data-[state=active]:text-white"
           >
             ビーコン詳細
           </Tabs.Trigger>
           <Tabs.Trigger
             value="tab2"
-            className="flex-1 rounded-lg border-2 border-gray p-1 data-[state=active]:border-deepBlue"
+            className="flex-1 rounded-lg border-2 border-deepBlue p-1 data-[state=active]:bg-deepBlue data-[state=active]:text-white"
           >
             ビーコンQRコード
           </Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value="tab1">
-          <SpotEditContent spot={spot} onSubmit={onSubmit} />
+          <SpotEditContent spot={spot} setIsDialogOpen={setIsDialogOpen} />
         </Tabs.Content>
-
         <Tabs.Content value="tab2">
           <SpotQRContent spot={spot} />
         </Tabs.Content>
@@ -217,7 +318,7 @@ export const BeaconSettingPanel = () => {
 
   return (
     <PanelCard>
-      <h2 className={"text-lg "}>登録済みスポットリスト</h2>
+      <h2 className={"text-lg"}>登録済みスポットリスト</h2>
       <ul className={"mt-4 flex flex-col gap-2"}>
         {selectEvent?.spots ? (
           selectEvent?.spots.map((spot) => (
@@ -228,13 +329,6 @@ export const BeaconSettingPanel = () => {
               }
             >
               <p className={"max-w-[268px] flex-1 break-words text-center"}>
-                {spot.name}
-                {spot.name}
-                {spot.name}
-                {spot.name}
-                {spot.name}
-                {spot.name}
-                {spot.name}
                 {spot.name}
               </p>
               <BeaconSettingDialog spot={spot} />
