@@ -1,34 +1,27 @@
 "use client";
-
-import { useState } from "react";
+import { useState, type FC } from "react";
 
 import { Close } from "@radix-ui/react-dialog";
-import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 
-import { PanelCard } from "../../components/panel-card";
-
-import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { deleteEvent } from "@/domain/event/api/delete-event";
-import { selectEventIdAtom } from "@/domain/event/store/atom";
 import { Dialog } from "@/ux-domain/shared-ui/dialog";
 
-export const DeleteEventDialog = () => {
-  const router = useRouter();
+type DeleteEventDialogProps = {
+  selectEventId: string;
+};
 
-  const [selectEventId] = useAtom(selectEventIdAtom);
+export const DeleteEventDialog: FC<DeleteEventDialogProps> = ({
+  selectEventId,
+}) => {
+  const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const onSubmit = async () => {
-    try {
-      const idToken = await getIdToken();
-      await deleteEvent(idToken, selectEventId);
+    await deleteEvent(selectEventId);
 
-      setIsDialogOpen(false);
-      router.push("/dashboard");
-    } catch (error) {
-      console.error(error);
-    }
+    setIsDialogOpen(false);
+    router.push("/dashboard");
   };
 
   return (
@@ -67,14 +60,5 @@ export const DeleteEventDialog = () => {
         </div>
       </div>
     </Dialog>
-  );
-};
-
-export const DeleteEventPanel = () => {
-  return (
-    <PanelCard className={"flex items-center justify-between"}>
-      <p className={"text-lg text-deepBlue"}>イベント削除</p>
-      <DeleteEventDialog />
-    </PanelCard>
   );
 };

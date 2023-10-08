@@ -3,17 +3,20 @@
 import type { FC } from "react";
 
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 
-import { selectEventAtom } from "@/domain/event/store/atom";
+import { useSelectEvent } from "@/domain/event/utils/use-select-event";
 import { Icon } from "@/ux-domain/shared-ui/icon";
 
 type NavigationIconButtonProps = {
   href: string;
   text: string;
   icon: string;
+};
+
+type EventConsoleHeaderProps = {
+  selectEventId: string;
 };
 
 const NavigationIconButton: FC<NavigationIconButtonProps> = ({
@@ -48,8 +51,10 @@ const NavigationIconButton: FC<NavigationIconButtonProps> = ({
   );
 };
 
-export const EventConsoleHeader = () => {
-  const [selectEvent] = useAtom(selectEventAtom);
+export const EventConsoleHeader: FC<EventConsoleHeaderProps> = ({
+  selectEventId,
+}) => {
+  const { selectEvent } = useSelectEvent(selectEventId);
   return (
     <header
       className={"flex h-12 w-full items-center justify-between bg-white px-4"}
@@ -72,7 +77,7 @@ export const EventConsoleHeader = () => {
         <NavigationIconButton
           icon={"ri:wifi-fill"}
           href={"./beacon"}
-          text={"ビーコン設定"}
+          text={"スポット設定"}
         />
         <NavigationIconButton
           icon={"ri:settings-5-line"}

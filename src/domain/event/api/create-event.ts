@@ -1,4 +1,8 @@
-import type { Event } from "../types";
+"use server";
+
+import { getSession } from "@auth0/nextjs-auth0";
+
+import { TokenError } from "@/domain/auth/error";
 
 export type CreateEventProps = {
   name: string;
@@ -8,31 +12,45 @@ export type CreateEventProps = {
     email: string;
     phone: string;
   };
-  idToken: string;
 };
 
 export const createEvent = async ({
   name,
   hpUrl,
   contact,
-  idToken,
-}: CreateEventProps): Promise<Event> => {
-  // fetch APIを使ってイベントを作成する
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/admin/event/create`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        hpUrl,
-        contact,
-      }),
-    },
-  );
+}: CreateEventProps) => {
+  try {
+    const session = await getSession();
+    if (!session?.idToken) {
+      throw new TokenError("idToken is not vertify");
+    }
 
-  return response.json();
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/admin/event/create`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.idToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          hpUrl,
+          contact,
+        }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    return response.json();
+  } catch (error) {
+    if (error instanceof TokenError) {
+      throw error;
+    } else if (error instanceof Error) {
+      throw new TypeError(error.message);
+    }
+  }
 };

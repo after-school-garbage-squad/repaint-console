@@ -1,29 +1,50 @@
-import type { Beacon } from "../types";
+"use server";
+
+import { getSession } from "@auth0/nextjs-auth0";
+
+import type { Spot } from "../types";
+
+import { TokenError } from "@/domain/auth/error";
 
 export const updateSpot = async (
-  idToken: string,
   eventId: string,
-  spot: Beacon,
+  spot: Spot,
   isPick?: boolean,
   name?: string,
 ) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/admin/event/${eventId}/spot/update`,
-    {
+  try {
+    const session = await getSession();
+
+    if (!session?.idToken) {
+      throw new TokenError("idToken is not vertify");
+    }
+
+    const apiURL = new URL(
+      `/admin/event/${eventId}/spot/update`,
+      process.env.NEXT_PUBLIC_API_URL,
+    );
+
+    const response = await fetch(apiURL, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${idToken}`,
+        Authorization: `Bearer ${session.idToken}`,
       },
       body: JSON.stringify({
         ...spot,
         isPick,
         name,
       }),
-    },
-  );
+    });
 
-  if (!response.ok) {
-    throw new Error(response.statusText);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+  } catch (error) {
+    if (error instanceof TokenError) {
+      throw error;
+    } else if (error instanceof Error) {
+      throw new TypeError(error.message);
+    }
   }
 };

@@ -1,1 +1,1 @@
-export { default } from "@/ux-domain/event/beacon/";
+export { default } from "@/ux-domain/event/spot";

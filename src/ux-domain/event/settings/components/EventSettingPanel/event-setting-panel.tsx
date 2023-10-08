@@ -1,55 +1,32 @@
 "use client";
 
-import type { ComponentProps } from "react";
-import { forwardRef, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 
-import { PanelCard } from "../../components/panel-card";
+import { PanelCard } from "../../../components/panel-card";
 
+import { EventEditFormInput } from "./event-setting-form-input";
+
+import type { Event } from "@/domain/event/types";
 import type { SubmitHandler } from "react-hook-form";
 import type { z } from "zod";
 
-import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { editEventStatus } from "@/domain/event/api/edit-event-status";
 import { EventFormSchema } from "@/domain/event/schema/event-form-schema";
-import { eventListAtom, selectEventAtom } from "@/domain/event/store/atom";
+import { useEventList } from "@/domain/event/utils/use-event-list";
 
-type EventCreateFormInputProps = {
-  label: string;
-  error?: string;
-} & ComponentProps<"input">;
+export type EventSettingPanelProps = {
+  selectEvent: Event;
+};
 
-const EventEditFormInput = forwardRef<
-  HTMLInputElement,
-  EventCreateFormInputProps
->(({ label, error, defaultValue, ...rest }, ref) => {
-  return (
-    <fieldset>
-      <label htmlFor="name" className={"text-base text-zinc-700 "}>
-        {label}
-      </label>
-      <input
-        ref={ref}
-        id="name"
-        type="text"
-        className={
-          "w-full rounded-lg border-2 border-deepBlue bg-white bg-none p-1 text-lg disabled:border-none"
-        }
-        disabled
-        defaultValue={defaultValue}
-        {...rest}
-      />
-      {error && <p className={"text-red"}>{error}</p>}
-    </fieldset>
-  );
-});
+export const EventSettingPanel: FC<EventSettingPanelProps> = ({
+  selectEvent,
+}) => {
+  const { mutate } = useEventList();
 
-export const EventSettingPanel = () => {
-  const [selectEvent] = useAtom(selectEventAtom);
-  const setEventList = useAtom(eventListAtom)[1];
   const [isEditable, setEditable] = useState<boolean>(false);
   const {
     register,
@@ -89,23 +66,9 @@ export const EventSettingPanel = () => {
     };
     if (JSON.stringify(prevData) === JSON.stringify(data)) return;
 
-    const idToken = await getIdToken();
-    const response = await editEventStatus(
-      idToken,
-      selectEvent,
-      data.name,
-      data.hpUrl,
-      data.contact,
-    );
+    await editEventStatus(selectEvent, data.name, data.hpUrl, data.contact);
 
-    setEventList((prev) => {
-      return prev.map((event) => {
-        if (event.eventId === selectEvent.eventId) {
-          return response;
-        }
-        return event;
-      });
-    });
+    mutate();
   };
 
   return (
