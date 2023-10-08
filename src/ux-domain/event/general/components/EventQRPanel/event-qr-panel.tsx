@@ -1,16 +1,17 @@
 "use client";
 
+import type { FC } from "react";
+
 import html2canvas from "html2canvas";
-import { useAtom } from "jotai";
 import QRCode from "react-qr-code";
 
-import { PanelCard } from "../../components/panel-card";
+import { PanelCard } from "../../../components/panel-card";
 
-import { selectEventIdAtom } from "@/domain/event/store/atom";
+export type EventQrPanelProps = {
+  selectEventId: string;
+};
 
-export const EventQrPanel = () => {
-  const [selectEventId] = useAtom(selectEventIdAtom);
-
+export const EventQrPanel: FC<EventQrPanelProps> = ({ selectEventId }) => {
   const handleSaveImage = () => {
     // eslint-disable-next-line unicorn/prefer-query-selector
     const qrCodeElement = document.getElementById("qr-code");

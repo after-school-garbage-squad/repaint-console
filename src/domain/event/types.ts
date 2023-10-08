@@ -1,4 +1,4 @@
-export type Beacon = {
+export type Spot = {
   spotId: string;
   name: string;
   isPick: boolean;
@@ -17,7 +17,7 @@ export type Event = {
   eventId: string;
   name: string;
   hpUrl: string;
-  spots: Beacon[];
+  spots: Spot[];
   images: string[];
   contact: Contact;
 };

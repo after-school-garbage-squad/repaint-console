@@ -1,24 +1,24 @@
-"use client";
-
+import type { FC } from "react";
 import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Title } from "@radix-ui/react-dialog";
-import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
-
-import { PanelCard } from "../../components/panel-card";
 
 import type { SubmitHandler } from "react-hook-form";
 import type { z } from "zod";
 
-import { getIdToken } from "@/domain/auth/api/get-id-token";
 import { inviteOperator } from "@/domain/event/api/invite-operator";
 import { inviteOperatorSchema } from "@/domain/event/schema/invite-operator-schema";
-import { selectEventIdAtom } from "@/domain/event/store/atom";
 import { Dialog } from "@/ux-domain/shared-ui/dialog";
 
-export const EventSettingPanelDialog = () => {
+type InviteOperatorProps = {
+  selectEventId: string;
+};
+
+export const InviteOperatorDialog: FC<InviteOperatorProps> = ({
+  selectEventId,
+}) => {
   const {
     register,
     handleSubmit,
@@ -34,14 +34,11 @@ export const EventSettingPanelDialog = () => {
   const [isLoading, setisLoading] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
-  const [selectEventId] = useAtom(selectEventIdAtom);
-
   const onSubmit: SubmitHandler<z.infer<typeof inviteOperatorSchema>> = async (
     data,
   ) => {
     setisLoading(true);
-    const idToken = await getIdToken();
-    await inviteOperator(idToken, selectEventId, data.email);
+    await inviteOperator(selectEventId, data.email);
     setisLoading(false);
     reset();
     setIsDialogOpen(false);
@@ -89,14 +86,5 @@ export const EventSettingPanelDialog = () => {
         </form>
       </div>
     </Dialog>
-  );
-};
-
-export const InviteOperaotPanel = () => {
-  return (
-    <PanelCard className={"flex items-center justify-between"}>
-      <h2 className={"text-lg"}>メンバー招待</h2>
-      <EventSettingPanelDialog />
-    </PanelCard>
   );
 };

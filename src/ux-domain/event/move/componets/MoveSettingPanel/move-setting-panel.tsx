@@ -1,25 +1,30 @@
 "use client";
 
+import type { FC } from "react";
 import { useState } from "react";
 
-import { useAtom } from "jotai";
 import Select from "react-select";
 
-import { PanelCard } from "../../components/panel-card";
+import { PanelCard } from "../../../components/panel-card";
 
-import { getIdToken } from "@/domain/auth/api/get-id-token";
+import type { Spot } from "@/domain/event/types";
+
 import { controlTrafic } from "@/domain/event/api/control-traffic";
-import { selectEventAtom } from "@/domain/event/store/atom";
 
-export const MoveSettingPanel = () => {
-  const [selectEvent] = useAtom(selectEventAtom);
+type MoveSettingPanelProps = {
+  selectEventId: string;
+  spots: Spot[];
+};
+
+export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
+  selectEventId,
+  spots,
+}) => {
   const [moveFrom, setMoveFrom] = useState<string>("");
   const [moveTo, setMoveTo] = useState<string>("");
 
   const onSubmit = async () => {
-    const idToken = await getIdToken();
-    if (!selectEvent) return;
-    await controlTrafic(idToken, selectEvent.eventId, moveTo, moveFrom);
+    await controlTrafic(selectEventId, moveTo, moveFrom);
   };
 
   return (
@@ -40,10 +45,12 @@ export const MoveSettingPanel = () => {
               }}
               id="move-from"
               options={
-                selectEvent?.spots &&
-                selectEvent?.spots.map((spot) => {
-                  return { value: spot.spotId, label: spot.name };
-                })
+                spots &&
+                spots
+                  .filter((spot) => spot.spotId !== moveTo)
+                  .map((spot) => {
+                    return { value: spot.spotId, label: spot.name };
+                  })
               }
             />
           </div>
@@ -60,10 +67,12 @@ export const MoveSettingPanel = () => {
               }}
               id="move-to"
               options={
-                selectEvent?.spots &&
-                selectEvent?.spots.map((spot) => {
-                  return { value: spot.spotId, label: spot.name };
-                })
+                spots &&
+                spots
+                  .filter((spot) => spot.spotId !== moveFrom)
+                  .map((spot) => {
+                    return { value: spot.spotId, label: spot.name };
+                  })
               }
             />
           </div>
