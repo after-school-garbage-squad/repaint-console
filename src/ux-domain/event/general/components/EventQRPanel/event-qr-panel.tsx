@@ -9,9 +9,13 @@ import { PanelCard } from "../../../components/panel-card";
 
 export type EventQrPanelProps = {
   selectEventId: string;
+  hasDefaultImage: boolean;
 };
 
-export const EventQrPanel: FC<EventQrPanelProps> = ({ selectEventId }) => {
+export const EventQrPanel: FC<EventQrPanelProps> = ({
+  selectEventId,
+  hasDefaultImage,
+}) => {
   const handleSaveImage = () => {
     // eslint-disable-next-line unicorn/prefer-query-selector
     const qrCodeElement = document.getElementById("qr-code");
@@ -37,10 +41,14 @@ export const EventQrPanel: FC<EventQrPanelProps> = ({ selectEventId }) => {
         </button>
       </div>
       <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
-        <QRCode
-          value={`https://repaint.asgs.dev/?event_id=${selectEventId}`}
-          width={250}
-        />
+        {hasDefaultImage ? (
+          <QRCode
+            value={`https://repaint.asgs.dev/?event_id=${selectEventId}`}
+            width={250}
+          />
+        ) : (
+          <p>デフォルト画像を追加後に表示されます。</p>
+        )}
       </div>
     </PanelCard>
   );

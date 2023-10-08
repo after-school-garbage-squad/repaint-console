@@ -21,19 +21,19 @@ export const SpotStatePanel: FC<SpotStatePanelProps> = ({
   selectEventId,
   spots,
 }) => {
-  const { data } = useTrafficStatus(selectEventId);
+  const { data, error, isLoading } = useTrafficStatus(selectEventId);
   const [spotWithTrafficStatusList, setList] = useState<
     SpotWithTrafficStatus[] | null
   >(null);
 
   useEffect(() => {
-    if (!data) return;
+    if (!data || error) return;
     const newList = spots.map((spot) => {
       const traffic = data.find((traffic) => traffic.spotId === spot.spotId);
       return { ...spot, ...traffic } as SpotWithTrafficStatus;
     });
     setList(newList);
-  }, [data, spots]);
+  }, [data, spots, isLoading]);
 
   return (
     <PanelCard className={"w-full max-w-7xl"}>

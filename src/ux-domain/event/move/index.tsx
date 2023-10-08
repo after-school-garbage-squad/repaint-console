@@ -1,3 +1,5 @@
+"use client";
+
 import { MoveSettingPanel } from "./componets/MoveSettingPanel/move-setting-panel";
 import { SpotStatePanel } from "./componets/SpotStatepanel/spot-state-panel";
 

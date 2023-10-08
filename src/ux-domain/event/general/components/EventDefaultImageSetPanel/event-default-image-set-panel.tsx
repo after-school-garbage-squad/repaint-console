@@ -69,18 +69,9 @@ export const EventDefaultImageSetPanel: React.FC<
 
   return (
     <PanelCard className={"flex flex-col gap-4"}>
-      <div className={"flex items-center justify-between"}>
+      <div className={"flex items-center justify-between gap-4"}>
         <h2 className={"text-lg "}>デフォルト画像の設定</h2>
         <EventDefaultImageSetDialog selectEventId={selectEventId} />
-      </div>
-      <div className={"flex gap-2"}>
-        <button
-          className={"rounded-lg bg-red px-4 py-2 text-white disabled:bg-gray"}
-          disabled={!imageList?.length || isLoading}
-          onClick={handleDeleteImage}
-        >
-          現在の画像を削除
-        </button>
       </div>
       <div className={"flex-auto"}>
         <Swiper
@@ -107,6 +98,15 @@ export const EventDefaultImageSetPanel: React.FC<
               </SwiperSlide>
             ))}
         </Swiper>
+      </div>
+      <div className={"flex justify-end gap-2"}>
+        <button
+          className={"rounded-lg bg-red px-4 py-2 text-white disabled:bg-gray"}
+          disabled={!imageList?.length || isLoading}
+          onClick={handleDeleteImage}
+        >
+          現在の画像を削除
+        </button>
       </div>
     </PanelCard>
   );

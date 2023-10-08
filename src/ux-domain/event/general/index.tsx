@@ -14,7 +14,10 @@ export const GeneralPage = ({ params }: { params: { id: string } }) => {
         <div
           className={"flex flex-auto flex-col justify-start gap-4 md:flex-row"}
         >
-          <EventQrPanel selectEventId={params.id} />
+          <EventQrPanel
+            selectEventId={params.id}
+            hasDefaultImage={!!selectEvent?.images.length}
+          />
           <EventDefaultImageSetPanel
             imageIdList={selectEvent?.images ?? []}
             selectEventId={params.id}
