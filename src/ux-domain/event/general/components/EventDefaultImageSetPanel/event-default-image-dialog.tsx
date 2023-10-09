@@ -66,14 +66,12 @@ export const EventDefaultImageSetDialog: FC<
         <button className={"rounded-lg bg-deepBlue p-2 text-white"}>
           画像の追加
         </button>
-      }
-    >
+      }>
       <div className={"flex flex-col gap-4"}>
         <p className={"text-lg text-deepBlue"}>イベントデフォルト画像の追加</p>
         <button
           onClick={() => inputRef.current?.click()}
-          className={"w-max rounded-lg bg-deepBlue px-4 py-2 text-white"}
-        >
+          className={"w-max rounded-lg bg-deepBlue px-4 py-2 text-white"}>
           画像のアップロード
         </button>
         <input
@@ -81,8 +79,7 @@ export const EventDefaultImageSetDialog: FC<
           ref={inputRef}
           type="file"
           className={"hidden"}
-　　　　　　　accept=".png"
-          accept={"image/*"}
+          accept={"image/png"}
         />
       </div>
       <div className={"mx-auto p-4"}>
@@ -103,8 +100,7 @@ export const EventDefaultImageSetDialog: FC<
             className={
               "rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
             }
-            onClick={onSubmit}
-          >
+            onClick={onSubmit}>
             追加する
           </button>
         </div>
