@@ -81,6 +81,7 @@ export const EventDefaultImageSetDialog: FC<
           ref={inputRef}
           type="file"
           className={"hidden"}
+　　　　　　　accept=".png"
           accept={"image/*"}
         />
       </div>
