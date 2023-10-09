@@ -4,5 +4,5 @@ import type { TokenError } from "@/domain/auth/error";
 
 export const alertDialogStateAtom = atom<{
   isOpen: boolean;
-  error: TokenError | TypeError;
+  error: TokenError | TypeError | null;
 } | null>(null);
