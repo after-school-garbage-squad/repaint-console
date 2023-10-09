@@ -33,6 +33,7 @@ export const SpotStatePanel: FC<SpotStatePanelProps> = ({
       return { ...spot, ...traffic } as SpotWithTrafficStatus;
     });
     setList(newList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, spots, isLoading]);
 
   return (

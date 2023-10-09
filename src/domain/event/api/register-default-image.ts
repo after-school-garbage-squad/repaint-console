@@ -20,13 +20,17 @@ export const registerDefaultImage = async (
   );
 
   try {
-    await fetch(apiUrl, {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${session.idToken}`,
       },
       body: formData,
     });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
   } catch (error) {
     if (error instanceof TokenError) {
       throw error;

@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Title } from "@radix-ui/react-dialog";
+import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 
 import type { SubmitHandler } from "react-hook-form";
@@ -10,6 +11,7 @@ import type { z } from "zod";
 
 import { inviteOperator } from "@/domain/event/api/invite-operator";
 import { inviteOperatorSchema } from "@/domain/event/schema/invite-operator-schema";
+import { alertDialogStateAtom } from "@/ux-domain/shared-ui/ErrorAlertDialog/atom";
 import { Dialog } from "@/ux-domain/shared-ui/dialog";
 
 type InviteOperatorProps = {
@@ -33,12 +35,23 @@ export const InviteOperatorDialog: FC<InviteOperatorProps> = ({
 
   const [isLoading, setisLoading] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const setDialogState = useAtom(alertDialogStateAtom)[1];
 
   const onSubmit: SubmitHandler<z.infer<typeof inviteOperatorSchema>> = async (
     data,
   ) => {
     setisLoading(true);
-    await inviteOperator(selectEventId, data.email);
+
+    try {
+      await inviteOperator(selectEventId, data.email);
+    } catch (error) {
+      if (error instanceof Error) {
+        setDialogState({ isOpen: true, error });
+      }
+      setisLoading(false);
+      setIsDialogOpen(false);
+      return;
+    }
     setisLoading(false);
     reset();
     setIsDialogOpen(false);

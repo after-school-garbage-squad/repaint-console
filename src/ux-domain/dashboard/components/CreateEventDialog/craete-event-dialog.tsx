@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Close } from "@radix-ui/react-dialog";
+import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 
 import { CreateEventFormInput } from "./event-create-form-input";
@@ -14,11 +15,13 @@ import type { z } from "zod";
 import { createEvent } from "@/domain/event/api/create-event";
 import { EventFormSchema } from "@/domain/event/schema/event-form-schema";
 import { useEventList } from "@/domain/event/utils/use-event-list";
+import { alertDialogStateAtom } from "@/ux-domain/shared-ui/ErrorAlertDialog/atom";
 import { Dialog } from "@/ux-domain/shared-ui/dialog";
 
 export const CreateEventDialog = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const { mutate } = useEventList();
+  const setDialogState = useAtom(alertDialogStateAtom)[1];
 
   const {
     register,
@@ -33,9 +36,17 @@ export const CreateEventDialog = () => {
   const onSubmit: SubmitHandler<z.infer<typeof EventFormSchema>> = async (
     data,
   ) => {
-    await createEvent({
-      ...data,
-    });
+    try {
+      await createEvent({
+        ...data,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        setDialogState({ isOpen: true, error });
+      }
+      setIsDialogOpen(false);
+      return;
+    }
 
     reset();
     mutate();

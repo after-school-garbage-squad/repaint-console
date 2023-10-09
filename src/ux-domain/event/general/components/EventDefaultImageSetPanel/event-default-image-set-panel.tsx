@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
+import { useAtom } from "jotai";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -11,8 +12,9 @@ import type { SwiperClass } from "swiper/react";
 
 import { deleteDefaultImage } from "@/domain/event/api/delete-default-image";
 import { getImageUrlList } from "@/domain/event/utils/get-image-rul-list";
+import { useEventList } from "@/domain/event/utils/use-event-list";
 import { PanelCard } from "@/ux-domain/event/components/panel-card";
-
+import { alertDialogStateAtom } from "@/ux-domain/shared-ui/ErrorAlertDialog/atom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -27,6 +29,9 @@ export const EventDefaultImageSetPanel: React.FC<
 > = ({ imageIdList, selectEventId }) => {
   const [activeIndex, setAvtiveIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const setDialogState = useAtom(alertDialogStateAtom)[1];
+
+  const { mutate } = useEventList();
 
   const [imageList, setImageList] = useState<
     | {
@@ -55,8 +60,15 @@ export const EventDefaultImageSetPanel: React.FC<
     const imageId = imageList?.[activeIndex].imageId;
     if (!imageId) return;
 
-    await deleteDefaultImage(selectEventId, imageId);
-
+    try {
+      await deleteDefaultImage(selectEventId, imageId);
+    } catch (error) {
+      if (error instanceof Error) {
+        setDialogState({ isOpen: true, error });
+      }
+      setIsLoading(false);
+      return;
+    }
     setImageList((prev) => {
       if (!prev) return null;
       const newImageList = [...prev];
@@ -64,6 +76,7 @@ export const EventDefaultImageSetPanel: React.FC<
       return newImageList;
     });
 
+    mutate();
     setIsLoading(false);
   };
 
