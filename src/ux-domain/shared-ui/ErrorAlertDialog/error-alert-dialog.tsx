@@ -2,11 +2,13 @@
 
 import * as Dialog from "@radix-ui/react-alert-dialog";
 import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
 
 import { alertDialogStateAtom } from "./atom";
 
 export const ErrorAlertDialog = () => {
   const [state, setState] = useAtom(alertDialogStateAtom);
+  const router = useRouter();
 
   return (
     <Dialog.Root open={state?.isOpen}>
@@ -23,15 +25,25 @@ export const ErrorAlertDialog = () => {
           </Dialog.Description>
           <div className={"flex justify-end"}>
             <Dialog.Action asChild>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setState({ isOpen: !state?.isOpen, error: state!.error });
-                }}
-                className="rounded-lg bg-deepBlue px-4 py-2 text-white"
-              >
-                Close
-              </button>
+              {state?.error instanceof TypeError ? (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setState({ isOpen: !state?.isOpen, error: state!.error });
+                  }}
+                  className="rounded-lg bg-deepBlue px-4 py-2 text-white">
+                  Close
+                </button>
+              ) : (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push("/login");
+                  }}
+                  className="rounded-lg bg-deepBlue px-4 py-2 text-white">
+                  ログイン画面へ
+                </button>
+              )}
             </Dialog.Action>
           </div>
         </Dialog.Content>
