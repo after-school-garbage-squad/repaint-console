@@ -4,6 +4,7 @@ import { useState, type FC } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Switch from "@radix-ui/react-switch";
+import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 
 import type { Spot } from "@/domain/event/types";
@@ -13,6 +14,7 @@ import { deleteSpot } from "@/domain/event/api/delete-spot";
 import { updateSpot } from "@/domain/event/api/update-spot";
 import { editSpotSchema } from "@/domain/event/schema/edit-spot-schema";
 import { useEventList } from "@/domain/event/utils/use-event-list";
+import { alertDialogStateAtom } from "@/ux-domain/shared-ui/ErrorAlertDialog/atom";
 
 type EditSpotTabProps = {
   spot: Spot;
@@ -36,12 +38,22 @@ export const EditSpotTab: FC<EditSpotTabProps> = ({
     resolver: zodResolver(editSpotSchema),
   });
   const { mutate } = useEventList();
+  const setDialogState = useAtom(alertDialogStateAtom)[1];
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onhandleSwitchChange = async (isPick: boolean) => {
     setIsLoading(true);
-    await updateSpot(selectEventId, spot, isPick, spot.name);
+    try {
+      await updateSpot(selectEventId, spot, isPick, spot.name);
+    } catch (error) {
+      if (error instanceof Error) {
+        setDialogState({ isOpen: true, error });
+      }
+      setIsDialogOpen(false);
+      setIsLoading(false);
+      return;
+    }
     mutate();
     setIsLoading(false);
   };
@@ -49,8 +61,17 @@ export const EditSpotTab: FC<EditSpotTabProps> = ({
   // TODO: ロジックの場所を変えたい
   const onhandleEditSubmit = async ({ name }: { name: string }) => {
     setIsLoading(true);
-    await updateSpot(selectEventId, spot, spot.isPick, name);
-
+    try {
+      await updateSpot(selectEventId, spot, spot.isPick, name);
+    } catch (error) {
+      if (error instanceof Error) {
+        setDialogState({ isOpen: true, error });
+      }
+      setIsDialogOpen(false);
+      setIsLoading(false);
+      return;
+    }
+    mutate();
     setIsLoading(false);
   };
 
@@ -58,8 +79,16 @@ export const EditSpotTab: FC<EditSpotTabProps> = ({
   const onhandleDeleteSubmit = async () => {
     setIsLoading(true);
 
-    if (!selectEventId) return;
-    await deleteSpot(selectEventId, spot.spotId);
+    try {
+      await deleteSpot(selectEventId, spot.spotId);
+    } catch (error) {
+      if (error instanceof Error) {
+        setDialogState({ isOpen: true, error });
+      }
+      setIsDialogOpen(false);
+      setIsLoading(false);
+      return;
+    }
 
     mutate();
     setIsLoading(false);

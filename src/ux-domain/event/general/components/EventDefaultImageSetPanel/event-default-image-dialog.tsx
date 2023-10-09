@@ -3,8 +3,11 @@
 import type { FC } from "react";
 import { useRef, useState } from "react";
 
+import { useAtom } from "jotai";
+
 import { registerDefaultImage } from "@/domain/event/api/register-default-image";
 import { useEventList } from "@/domain/event/utils/use-event-list";
+import { alertDialogStateAtom } from "@/ux-domain/shared-ui/ErrorAlertDialog/atom";
 import { Dialog } from "@/ux-domain/shared-ui/dialog";
 
 type EventDefaultImageSetDialogProps = {
@@ -18,6 +21,8 @@ export const EventDefaultImageSetDialog: FC<
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const setDialogState = useAtom(alertDialogStateAtom)[1];
+
   const { mutate } = useEventList();
 
   const inputChaneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,8 +45,9 @@ export const EventDefaultImageSetDialog: FC<
       await registerDefaultImage(selectEventId, data);
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        setDialogState({ isOpen: true, error: new TypeError(error.message) });
       }
+      setIsDialogOpen(false);
       setIsLoading(false);
       return;
     }
@@ -93,7 +99,9 @@ export const EventDefaultImageSetDialog: FC<
         <div className={"mt-4 flex justify-end"}>
           <button
             disabled={isLoading}
-            className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
+            className={
+              "rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
+            }
             onClick={onSubmit}
           >
             追加する

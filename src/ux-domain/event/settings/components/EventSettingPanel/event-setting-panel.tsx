@@ -4,6 +4,7 @@ import type { FC } from "react";
 import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 
 import { PanelCard } from "../../../components/panel-card";
@@ -17,6 +18,7 @@ import type { z } from "zod";
 import { editEventStatus } from "@/domain/event/api/edit-event-status";
 import { EventFormSchema } from "@/domain/event/schema/event-form-schema";
 import { useEventList } from "@/domain/event/utils/use-event-list";
+import { alertDialogStateAtom } from "@/ux-domain/shared-ui/ErrorAlertDialog/atom";
 
 export type EventSettingPanelProps = {
   selectEvent: Event;
@@ -26,6 +28,7 @@ export const EventSettingPanel: FC<EventSettingPanelProps> = ({
   selectEvent,
 }) => {
   const { mutate } = useEventList();
+  const setDialogState = useAtom(alertDialogStateAtom)[1];
 
   const [isEditable, setEditable] = useState<boolean>(false);
   const {
@@ -53,7 +56,6 @@ export const EventSettingPanel: FC<EventSettingPanelProps> = ({
     data,
   ) => {
     setEditable(false);
-    if (!selectEvent) return;
 
     const prevData: z.infer<typeof EventFormSchema> = {
       name: selectEvent?.name,
@@ -66,8 +68,14 @@ export const EventSettingPanel: FC<EventSettingPanelProps> = ({
     };
     if (JSON.stringify(prevData) === JSON.stringify(data)) return;
 
-    await editEventStatus(selectEvent, data.name, data.hpUrl, data.contact);
-
+    try {
+      await editEventStatus(selectEvent, data.name, data.hpUrl, data.contact);
+    } catch (error) {
+      if (error instanceof Error) {
+        setDialogState({ isOpen: true, error });
+      }
+      return;
+    }
     mutate();
   };
 

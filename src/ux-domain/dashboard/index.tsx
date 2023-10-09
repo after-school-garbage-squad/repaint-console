@@ -7,7 +7,7 @@ import { ProjectCard } from "./components/ProjectCard";
 import { useEventList } from "@/domain/event/utils/use-event-list";
 
 const DashboardPage = () => {
-  const { data } = useEventList();
+  const { data, isLoading } = useEventList();
 
   return (
     <>
@@ -18,7 +18,9 @@ const DashboardPage = () => {
           <CreateEventDialog />
         </div>
         <div className={"flex flex-wrap gap-4"}>
-          {Array.isArray(data) ? (
+          {isLoading ? (
+            <p>ロード中</p>
+          ) : data?.length ? (
             data.map((event) => (
               <ProjectCard
                 key={event.eventId}

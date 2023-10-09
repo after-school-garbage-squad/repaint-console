@@ -3,6 +3,7 @@
 import type { FC } from "react";
 import { useState } from "react";
 
+import { useAtom } from "jotai";
 import Select from "react-select";
 
 import { PanelCard } from "../../../components/panel-card";
@@ -10,6 +11,7 @@ import { PanelCard } from "../../../components/panel-card";
 import type { Spot } from "@/domain/event/types";
 
 import { controlTrafic } from "@/domain/event/api/control-traffic";
+import { alertDialogStateAtom } from "@/ux-domain/shared-ui/ErrorAlertDialog/atom";
 
 type MoveSettingPanelProps = {
   selectEventId: string;
@@ -22,9 +24,16 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
 }) => {
   const [moveFrom, setMoveFrom] = useState<string>("");
   const [moveTo, setMoveTo] = useState<string>("");
+  const setDialogState = useAtom(alertDialogStateAtom)[1];
 
   const onSubmit = async () => {
-    await controlTrafic(selectEventId, moveTo, moveFrom);
+    try {
+      await controlTrafic(selectEventId, moveTo, moveFrom);
+    } catch (error) {
+      if (error instanceof Error) {
+        setDialogState({ isOpen: true, error });
+      }
+    }
   };
 
   return (

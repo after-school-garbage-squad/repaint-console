@@ -35,7 +35,8 @@ export const EventQrPanel: FC<EventQrPanelProps> = ({
         <h2 className={"text-lg"}>イベントQRコード</h2>
         <button
           onClick={handleSaveImage}
-          className={"rounded-lg bg-deepBlue p-2 text-white"}
+          disabled={!hasDefaultImage}
+          className={"rounded-lg bg-deepBlue p-2 text-white disabled:bg-gray"}
         >
           ダウンロード
         </button>
