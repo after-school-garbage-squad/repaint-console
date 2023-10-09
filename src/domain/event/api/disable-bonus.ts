@@ -4,29 +4,25 @@ import { getSession } from "@auth0/nextjs-auth0";
 
 import { TokenError } from "@/domain/auth/error";
 
-export const controlTrafic = async (
-  eventId: string,
-  to: string,
-  from?: string,
-) => {
+export const disableBonus = async (eventId: string, spotId: string) => {
   try {
     const session = await getSession();
     if (!session?.idToken) {
-      throw new TokenError("idToken is not vertify");
+      throw new Error("idToken is not vertify");
     }
 
-    const api_url = new URL(
-      `/admin/event/${eventId}/traffic/set-bonus`,
-      process.env.NEXT_PUBLIC_API_URL,
+    const apiUrl = new URL(
+      `/admin/event/${eventId}/traffic/disable-bonus`,
+      process.env.NEXT_PUBLIC_API_URL
     );
 
-    const response = await fetch(api_url, {
+    const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${session.idToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ from, to }),
+      body: JSON.stringify({ spotId }),
     });
     if (!response.ok) {
       throw new Error(response.statusText);

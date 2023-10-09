@@ -10,7 +10,8 @@ import { PanelCard } from "../../../components/panel-card";
 
 import type { Spot } from "@/domain/event/types";
 
-import { controlTrafic } from "@/domain/event/api/control-traffic";
+import { enableBonus } from "@/domain/event/api/enable-bonus";
+import { useEventList } from "@/domain/event/utils/use-event-list";
 import { alertDialogStateAtom } from "@/ux-domain/shared-ui/ErrorAlertDialog/atom";
 
 type MoveSettingPanelProps = {
@@ -25,15 +26,23 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
   const [moveFrom, setMoveFrom] = useState<string>("");
   const [moveTo, setMoveTo] = useState<string>("");
   const setDialogState = useAtom(alertDialogStateAtom)[1];
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { mutate } = useEventList();
 
   const onSubmit = async () => {
+    if (!moveFrom || !moveTo) return;
+    setIsSubmitting(true);
     try {
-      await controlTrafic(selectEventId, moveTo, moveFrom);
+      await enableBonus(selectEventId, moveTo, moveFrom);
     } catch (error) {
       if (error instanceof Error) {
         setDialogState({ isOpen: true, error });
+        setIsSubmitting(false);
+        return;
       }
     }
+    mutate();
+    setIsSubmitting(false);
   };
 
   return (
@@ -44,8 +53,7 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
           <div className={"flex w-full flex-1 flex-col gap-1"}>
             <label
               htmlFor="move-from"
-              className="w-max border-b-2 border-blue px-2"
-            >
+              className="w-max border-b-2 border-blue px-2">
               移動元
             </label>
             <Select
@@ -66,14 +74,14 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
           <div className={"flex w-full flex-1 flex-col gap-1"}>
             <label
               htmlFor="move-to"
-              className="w-max border-b-2 border-blue  px-2"
-            >
+              className="w-max border-b-2 border-blue  px-2">
               移動先
             </label>
             <Select
               onChange={(e) => {
                 setMoveTo(e!.value);
               }}
+              isClearable
               id="move-to"
               options={
                 spots &&
@@ -88,12 +96,11 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
         </div>
         <button
           type={"button"}
-          disabled={!moveFrom || !moveTo}
+          disabled={!moveFrom || !moveTo || isSubmitting}
           onClick={onSubmit}
           className={
             "mx-auto mt-4 block rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
-          }
-        >
+          }>
           決定する
         </button>
       </form>

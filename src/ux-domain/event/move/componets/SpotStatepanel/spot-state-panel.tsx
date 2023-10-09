@@ -59,7 +59,7 @@ export const SpotStatePanel: FC<SpotStatePanelProps> = ({
               <li
                 key={spot.hwId}
                 className={
-                  "flex w-full flex-col flex-wrap items-center justify-center gap-2 rounded-lg border-2 border-gray px-4 py-2 shadow-lg "
+                  "flex w-full flex-col flex-wrap items-center justify-center gap-2 rounded-lg border-2 border-gray px-4 py-2 shadow-lg"
                 }
               >
                 <div className={"flex items-center gap-2"}>
