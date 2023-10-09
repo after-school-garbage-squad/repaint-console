@@ -5,7 +5,8 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { getIdToken } from "@/domain/auth/api/get-id-token";
+import { alertDialogStateAtom } from "../shared-ui/ErrorAlertDialog/atom";
+
 import { inviteTokenAtom } from "@/domain/auth/store/atom";
 import { addOperator } from "@/domain/event/api/add-operator";
 
@@ -15,22 +16,33 @@ const InvitePage = () => {
   const user = useUser();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const setDialogState = useAtom(alertDialogStateAtom)[1];
 
   const handleSubmit = async () => {
     const paramsToken = searchParams.get("token");
     setInviteToken(paramsToken);
 
-    if (!paramsToken || !inviteToken) {
+    if (!paramsToken && !inviteToken) {
       alert("招待トークンがありません。");
       return;
     }
     if (!user.user) {
-      await router.push(`/api/auth/login?returnTo=/invite`);
+      await router.push(
+        `/api/auth/login?returnTo=/invite&&token=${inviteToken}`,
+      );
       return;
     }
 
-    const idToken = await getIdToken();
-    await addOperator(idToken, paramsToken ?? inviteToken);
+    try {
+      await addOperator(inviteToken!);
+
+      setInviteToken(null);
+    } catch (error) {
+      if (error instanceof Error) {
+        setDialogState({ isOpen: true, error });
+      }
+      return;
+    }
 
     await router.push("/dashboard");
   };
