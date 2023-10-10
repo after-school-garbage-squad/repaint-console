@@ -51,12 +51,12 @@ export const EventDefaultImageSetDialog: FC<
     } else if (e.target.files?.[0].type === "image/png") {
       setError("imageFile", {
         type: "manual",
-        message: "ファイル形式はpngのみです。",
+        message: undefined,
       });
     } else {
       setError("imageFile", {
         type: "manual",
-        message: undefined,
+        message: "ファイル形式はpngのみです。",
       });
     }
   };
