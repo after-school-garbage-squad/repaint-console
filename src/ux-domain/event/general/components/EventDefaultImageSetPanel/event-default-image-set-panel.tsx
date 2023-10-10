@@ -115,7 +115,7 @@ export const EventDefaultImageSetPanel: React.FC<
       <div className={"flex justify-end gap-2"}>
         <button
           className={"rounded-lg bg-red px-4 py-2 text-white disabled:bg-gray"}
-          disabled={!imageList?.length || isLoading}
+          disabled={!imageList?.length || isLoading || imageList.length === 1}
           onClick={handleDeleteImage}
         >
           現在の画像を削除

@@ -13,7 +13,7 @@ export const disableBonus = async (eventId: string, spotId: string) => {
 
     const apiUrl = new URL(
       `/admin/event/${eventId}/traffic/disable-bonus`,
-      process.env.NEXT_PUBLIC_API_URL
+      process.env.NEXT_PUBLIC_API_URL,
     );
 
     const response = await fetch(apiUrl, {

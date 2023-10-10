@@ -43,13 +43,15 @@ export const SpotSettingPanel: FC<SpotSettingPanelProps> = ({
       <div
         className={
           "mt-4 grid grid-flow-col grid-cols-1 gap-4 md:grid-flow-row md:grid-cols-3"
-        }>
+        }
+      >
         {spots.map(
           (spot) =>
             spot.bonus && (
               <div
                 key={spot.spotId}
-                className="flex w-full flex-wrap items-center justify-between gap-2 rounded-lg border-2 border-gray px-4 py-2 shadow-lg">
+                className="flex w-full flex-wrap items-center justify-between gap-2 rounded-lg border-2 border-gray px-4 py-2 shadow-lg"
+              >
                 <p>{spot.name}</p>
                 <button
                   aria-label="スポット状態を解除"
@@ -57,11 +59,12 @@ export const SpotSettingPanel: FC<SpotSettingPanelProps> = ({
                   onClick={() => handleSubmit(spot)}
                   className={
                     "rounded-lg bg-red px-4 py-2 text-white disabled:bg-gray"
-                  }>
+                  }
+                >
                   解除
                 </button>
               </div>
-            )
+            ),
         )}
       </div>
     </PanelCard>

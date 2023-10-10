@@ -53,7 +53,8 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
           <div className={"flex w-full flex-1 flex-col gap-1"}>
             <label
               htmlFor="move-from"
-              className="w-max border-b-2 border-blue px-2">
+              className="w-max border-b-2 border-blue px-2"
+            >
               移動元
             </label>
             <Select
@@ -74,7 +75,8 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
           <div className={"flex w-full flex-1 flex-col gap-1"}>
             <label
               htmlFor="move-to"
-              className="w-max border-b-2 border-blue  px-2">
+              className="w-max border-b-2 border-blue  px-2"
+            >
               移動先
             </label>
             <Select
@@ -100,7 +102,8 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
           onClick={onSubmit}
           className={
             "mx-auto mt-4 block rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
-          }>
+          }
+        >
           決定する
         </button>
       </form>

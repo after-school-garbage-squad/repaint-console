@@ -7,7 +7,7 @@ import { TokenError } from "@/domain/auth/error";
 export const enableBonus = async (
   eventId: string,
   to: string,
-  from?: string
+  from?: string,
 ) => {
   try {
     const session = await getSession();
@@ -17,7 +17,7 @@ export const enableBonus = async (
 
     const api_url = new URL(
       `/admin/event/${eventId}/traffic/enable-bonus`,
-      process.env.NEXT_PUBLIC_API_URL
+      process.env.NEXT_PUBLIC_API_URL,
     );
 
     const response = await fetch(api_url, {

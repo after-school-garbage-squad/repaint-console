@@ -37,7 +37,8 @@ export const ErrorAlertDialog = () => {
                     e.preventDefault();
                     setState({ isOpen: !state?.isOpen, error: null });
                   }}
-                  className="rounded-lg bg-deepBlue px-4 py-2 text-white">
+                  className="rounded-lg bg-deepBlue px-4 py-2 text-white"
+                >
                   Close
                 </button>
               ) : (
@@ -47,7 +48,8 @@ export const ErrorAlertDialog = () => {
                     setState({ isOpen: !state?.isOpen, error: null });
                     router.push("/login");
                   }}
-                  className="rounded-lg bg-deepBlue px-4 py-2 text-white">
+                  className="rounded-lg bg-deepBlue px-4 py-2 text-white"
+                >
                   ログイン画面へ
                 </button>
               )}
