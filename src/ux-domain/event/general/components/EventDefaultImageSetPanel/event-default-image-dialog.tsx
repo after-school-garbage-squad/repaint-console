@@ -46,12 +46,12 @@ export const EventDefaultImageSetDialog: FC<
     if (e.target.files?.[0].size > 1024 * 1024 * 5) {
       setError("imageFile", {
         type: "manual",
-        message: "ファイルサイズが大きすぎます",
+        message: "32MB以下の画像を選択してください",
       });
     } else if (e.target.files?.[0].type === "image/png") {
       setError("imageFile", {
         type: "manual",
-        message: "",
+        message: "ファイル形式はpngのみです。",
       });
     } else {
       setError("imageFile", {
