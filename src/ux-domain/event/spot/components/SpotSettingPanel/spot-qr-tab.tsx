@@ -1,5 +1,6 @@
 import type { FC } from "react";
 
+import html2canvas from "html2canvas";
 import QRCode from "react-qr-code";
 
 import type { Spot } from "@/domain/event/types";
@@ -13,6 +14,19 @@ export const SpotQRContent: FC<SpotQRContentProps> = ({
   spot,
   selectEventId,
 }) => {
+  const handleSaveImage = () => {
+    // eslint-disable-next-line unicorn/prefer-query-selector
+    const qrCodeElement = document.getElementById("qr-code");
+
+    html2canvas(qrCodeElement!).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = imgData;
+      a.download = "qr-code.png";
+      a.click();
+    });
+  };
+
   return (
     <div className="flex flex-col">
       {spot.isPick ? (
@@ -32,6 +46,7 @@ export const SpotQRContent: FC<SpotQRContentProps> = ({
       )}
       <button
         disabled={!spot.isPick}
+        onClick={handleSaveImage}
         className={
           "rounded-lg bg-deepBlue px-4 py-2 text-white disabled:bg-gray"
         }
