@@ -39,7 +39,7 @@ export const SpotSettingPanel: FC<SpotSettingPanelProps> = ({
   };
   return (
     <PanelCard className={"w-full max-w-7xl"}>
-      <h2 className={"text-lg"}>フィーバー中のスポット</h2>
+      <h2 className={"text-lg"}>ボーナス中のスポット</h2>
       <div
         className={
           "mt-4 grid grid-flow-col grid-cols-1 gap-4 md:grid-flow-row md:grid-cols-3"
