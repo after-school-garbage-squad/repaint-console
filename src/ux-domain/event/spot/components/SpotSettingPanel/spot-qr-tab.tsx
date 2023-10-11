@@ -19,8 +19,8 @@ export const SpotQRContent: FC<SpotQRContentProps> = ({
         <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
           <QRCode
             value={JSON.stringify({
-              eventId: selectEventId,
-              spotId: spot.spotId,
+              event_id: selectEventId,
+              spot_id: spot.spotId,
             })}
             width={250}
           />
