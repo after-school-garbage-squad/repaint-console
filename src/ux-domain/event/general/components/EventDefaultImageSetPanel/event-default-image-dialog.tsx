@@ -28,6 +28,7 @@ export const EventDefaultImageSetDialog: FC<
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const setDialogState = useAtom(alertDialogStateAtom)[1];
 
   const { mutate } = useEventList();
@@ -40,7 +41,9 @@ export const EventDefaultImageSetDialog: FC<
     reader.readAsDataURL(e.target.files?.[0]);
 
     reader.addEventListener("load", () => {
+      if (e.target.files?.[0] === undefined) return;
       setPreviewImage(reader.result as string);
+      setImageFile(e.target.files?.[0]);
     });
 
     if (e.target.files?.[0].size > 1024 * 1024 * 5) {
@@ -69,7 +72,7 @@ export const EventDefaultImageSetDialog: FC<
 
   const onSubmit = async () => {
     const data: FormData = new FormData();
-    data.append("image", inputRef.current?.files?.[0] as Blob);
+    data.append("image", imageFile as File);
 
     try {
       await registerDefaultImage(selectEventId, data);
