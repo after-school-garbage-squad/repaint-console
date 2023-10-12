@@ -28,7 +28,7 @@ const InvitePage = () => {
     }
     if (!user.user) {
       await router.push(
-        `/api/auth/login?returnTo=/invite&&token=${inviteToken}`,
+        `/api/auth/login?returnTo=/invite&&token=${inviteToken}`
       );
       return;
     }
@@ -63,7 +63,7 @@ const InvitePage = () => {
           className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
           aria-label="招待の承認"
         >
-          招待を受ける
+          {user ? "招待を承認する" : "ログインする"}
         </button>
       </div>
     </main>
