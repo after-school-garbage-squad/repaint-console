@@ -6,20 +6,20 @@ import { TokenError } from "@/domain/auth/error";
 
 export const registerDefaultImage = async (
   eventID: string,
-  formData: FormData,
+  formData: FormData
 ) => {
-  const session = await getSession();
-
-  if (!session?.idToken) {
-    throw new TokenError("can not get idToken from session");
-  }
-
-  const apiUrl = new URL(
-    `/admin/event/${eventID}/image/register-default`,
-    process.env.NEXT_PUBLIC_API_URL,
-  );
-
   try {
+    const session = await getSession();
+
+    if (!session?.idToken) {
+      throw new TokenError("can not get idToken from session");
+    }
+
+    const apiUrl = new URL(
+      `/admin/event/${eventID}/image/register-default`,
+      process.env.NEXT_PUBLIC_API_URL
+    );
+
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -32,6 +32,7 @@ export const registerDefaultImage = async (
       throw new Error(response.statusText);
     }
   } catch (error) {
+    console.error(error);
     if (error instanceof TokenError) {
       throw error;
     } else if (error instanceof Error) {
