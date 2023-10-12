@@ -113,6 +113,7 @@ export const EventDefaultImageSetDialog: FC<
           </button>
           <input
             {...rest}
+            disabled={isSubmitting}
             ref={inputRef}
             type="file"
             accept="image/png"
