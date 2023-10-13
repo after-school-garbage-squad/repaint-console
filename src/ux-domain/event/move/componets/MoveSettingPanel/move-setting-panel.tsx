@@ -23,8 +23,8 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
   selectEventId,
   spots,
 }) => {
-  const [moveFrom, setMoveFrom] = useState<string>("");
-  const [moveTo, setMoveTo] = useState<string>("");
+  const [moveFrom, setMoveFrom] = useState<string | null>("");
+  const [moveTo, setMoveTo] = useState<string | null>("");
   const setDialogState = useAtom(alertDialogStateAtom)[1];
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { mutate } = useEventList();
@@ -59,9 +59,14 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
             </label>
             <Select
               onChange={(e) => {
+                if (!e) {
+                  setMoveFrom(null);
+                  return;
+                }
                 setMoveFrom(e!.value);
               }}
               id="move-from"
+              isClearable
               options={
                 spots &&
                 spots
@@ -81,6 +86,10 @@ export const MoveSettingPanel: FC<MoveSettingPanelProps> = ({
             </label>
             <Select
               onChange={(e) => {
+                if (!e) {
+                  setMoveTo(null);
+                  return;
+                }
                 setMoveTo(e!.value);
               }}
               isClearable
