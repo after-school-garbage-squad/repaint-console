@@ -2,7 +2,6 @@
 
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { EnvelopeClosedIcon } from "@radix-ui/react-icons";
-import Image from "next/image";
 
 export const DashBoardHeader = () => {
   const { user, isLoading } = useUser();
@@ -13,7 +12,7 @@ export const DashBoardHeader = () => {
         "flex min-h-[96px] flex-col items-center gap-4 bg-white px-8 py-2 md:flex-row"
       }
     >
-      <Image
+      <img
         alt="repaintのロゴ"
         src={"/repaint-logo.svg"}
         width={180}
