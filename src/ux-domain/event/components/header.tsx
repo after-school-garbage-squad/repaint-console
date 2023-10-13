@@ -3,7 +3,6 @@
 import type { FC } from "react";
 
 import * as Tooltip from "@radix-ui/react-tooltip";
-import Image from "next/image";
 import Link from "next/link";
 
 import { useSelectEvent } from "@/domain/event/utils/use-select-event";
@@ -60,7 +59,7 @@ export const EventConsoleHeader: FC<EventConsoleHeaderProps> = ({
       className={"flex h-12 w-full items-center justify-between bg-white px-4"}
     >
       <Link href={"/dashboard"}>
-        <Image src={"/icon.png"} alt="repaintのロゴ" width={44} height={44} />
+        <img src={"/icon.png"} alt="repaintのロゴ" width={44} height={44} />
       </Link>
       <h1>{selectEvent?.name}</h1>
       <nav className={"flex justify-center gap-2"}>

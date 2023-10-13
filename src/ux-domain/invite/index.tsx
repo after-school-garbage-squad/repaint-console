@@ -2,7 +2,6 @@
 
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useAtom } from "jotai";
-import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { alertDialogStateAtom } from "../shared-ui/ErrorAlertDialog/atom";
@@ -52,7 +51,7 @@ const InvitePage = () => {
       <div
         className={"relative flex flex-col items-center justify-center gap-4"}
       >
-        <Image
+        <img
           alt="repaintのロゴ"
           src={"/repaint-logo.svg"}
           width={300}
