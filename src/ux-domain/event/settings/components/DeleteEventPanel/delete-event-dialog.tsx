@@ -6,6 +6,7 @@ import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 
 import { deleteEvent } from "@/domain/event/api/delete-event";
+import { useEventList } from "@/domain/event/utils/use-event-list";
 import { AlertDialog } from "@/ux-domain/shared-ui/AlertDialog/alert-dialog";
 import { alertDialogStateAtom } from "@/ux-domain/shared-ui/ErrorAlertDialog/atom";
 
@@ -17,6 +18,7 @@ export const DeleteEventDialog: FC<DeleteEventDialogProps> = ({
   selectEventId,
 }) => {
   const setDialogState = useAtom(alertDialogStateAtom)[1];
+  const { mutate } = useEventList();
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -36,6 +38,7 @@ export const DeleteEventDialog: FC<DeleteEventDialogProps> = ({
 
     setIsDialogOpen(false);
     setIsSubmitting(false);
+    mutate();
     router.push("/dashboard");
   };
 
