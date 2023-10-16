@@ -38,30 +38,60 @@ export const EventDefaultImageSetDialog: FC<
 
     // DataURLを作成
     if (e.target.files?.[0] === undefined) return;
-    reader.readAsDataURL(e.target.files?.[0]);
-
-    reader.addEventListener("load", () => {
+    e.target.files?.[0].arrayBuffer().then((buffer) => {
       if (e.target.files?.[0] === undefined) return;
-      setPreviewImage(reader.result as string);
+      const bytes = new Uint8Array(buffer);
+      const header = bytes.subarray(0, 4);
+      const pngHeader = new Uint8Array([137, 80, 78, 71]);
+
+      if (bytes.length > 1024 * 1024 * 32) {
+        setError("imageFile", {
+          type: "manual",
+          message: "32MB以下の画像を選択してください",
+        });
+      } else if (header.every((value, index) => value === pngHeader[index])) {
+        setError("imageFile", {
+          type: "manual",
+          message: undefined,
+        });
+      } else {
+        setError("imageFile", {
+          type: "manual",
+          message: "ファイル形式はpngのみです。",
+        });
+      }
+
+      setPreviewImage(URL.createObjectURL(e.target.files?.[0]));
       setImageFile(e.target.files?.[0]);
     });
 
-    if (e.target.files?.[0].size > 1024 * 1024 * 32) {
-      setError("imageFile", {
-        type: "manual",
-        message: "32MB以下の画像を選択してください",
-      });
-    } else if (e.target.files?.[0].type === "image/png") {
-      setError("imageFile", {
-        type: "manual",
-        message: undefined,
-      });
-    } else {
-      setError("imageFile", {
-        type: "manual",
-        message: "ファイル形式はpngのみです。",
-      });
-    }
+    reader.addEventListener("load", () => {
+      if (e.target.files?.[0] === undefined) return;
+      const buffer = reader.result as ArrayBuffer;
+      const bytes = new Uint8Array(buffer);
+      const header = bytes.subarray(0, 4);
+      const pngHeader = new Uint8Array([137, 80, 78, 71]);
+
+      if (bytes.length > 1024 * 1024 * 32) {
+        setError("imageFile", {
+          type: "manual",
+          message: "32MB以下の画像を選択してください",
+        });
+      } else if (header.every((value, index) => value === pngHeader[index])) {
+        setError("imageFile", {
+          type: "manual",
+          message: undefined,
+        });
+      } else {
+        setError("imageFile", {
+          type: "manual",
+          message: "ファイル形式はpngのみです。",
+        });
+      }
+
+      setPreviewImage(URL.createObjectURL(e.target.files?.[0]));
+      setImageFile(e.target.files?.[0]);
+    });
   };
 
   const { ref, ...rest } = register("imageFile", {
