@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 
 import type { Event } from "@/domain/event/types";
 
+export const dynamic = "force-dynamic";
+
 export const GET = async () => {
   const session = await getSession();
   if (!session?.idToken) {

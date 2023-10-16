@@ -19,7 +19,7 @@ const InvitePage = () => {
 
   const handleSubmit = async () => {
     const paramsToken = searchParams.get("token");
-    setInviteToken(paramsToken);
+    await setInviteToken(paramsToken);
 
     if (!paramsToken && !inviteToken) {
       alert("招待トークンがありません。");
@@ -27,23 +27,22 @@ const InvitePage = () => {
     }
     if (!user.user) {
       await router.push(
-        `/api/auth/login?returnTo=/invite&&token=${inviteToken}`
+        `/api/auth/login?returnTo=/invite?token=${inviteToken}`
       );
       return;
     }
 
     try {
-      await addOperator(inviteToken!);
+      await addOperator(inviteToken || paramsToken!);
 
       setInviteToken(null);
+      await router.push("/dashboard");
     } catch (error) {
       if (error instanceof Error) {
         setDialogState({ isOpen: true, error });
       }
       return;
     }
-
-    await router.push("/dashboard");
   };
 
   return (
@@ -62,7 +61,7 @@ const InvitePage = () => {
           className={"rounded-lg bg-deepBlue px-4 py-2 text-white"}
           aria-label="招待の承認"
         >
-          {user ? "招待を承認する" : "ログインする"}
+          {user.user ? "招待を承認する" : "ログインする"}
         </button>
       </div>
     </main>
