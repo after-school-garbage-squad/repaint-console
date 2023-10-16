@@ -34,9 +34,6 @@ export const EventDefaultImageSetDialog: FC<
   const { mutate } = useEventList();
 
   const inputChaneHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-
-    // DataURLを作成
     if (e.target.files?.[0] === undefined) return;
     e.target.files?.[0].arrayBuffer().then((buffer) => {
       if (e.target.files?.[0] === undefined) return;

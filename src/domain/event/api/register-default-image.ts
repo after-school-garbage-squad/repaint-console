@@ -6,7 +6,7 @@ import { TokenError } from "@/domain/auth/error";
 
 export const registerDefaultImage = async (
   eventID: string,
-  formData: FormData
+  formData: FormData,
 ) => {
   try {
     const session = await getSession();
@@ -17,7 +17,7 @@ export const registerDefaultImage = async (
 
     const apiUrl = new URL(
       `/admin/event/${eventID}/image/register-default`,
-      process.env.NEXT_PUBLIC_API_URL
+      process.env.NEXT_PUBLIC_API_URL,
     );
 
     const response = await fetch(apiUrl, {

@@ -27,7 +27,7 @@ const InvitePage = () => {
     }
     if (!user.user) {
       await router.push(
-        `/api/auth/login?returnTo=/invite?token=${inviteToken}`
+        `/api/auth/login?returnTo=/invite?token=${inviteToken}`,
       );
       return;
     }
