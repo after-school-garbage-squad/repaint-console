@@ -3,7 +3,7 @@
 import type { FC } from "react";
 
 import html2canvas from "html2canvas";
-import QRCode from "react-qr-code";
+import { QRCodeCanvas } from "qrcode.react";
 
 import { PanelCard } from "../../../components/panel-card";
 
@@ -43,9 +43,17 @@ export const EventQrPanel: FC<EventQrPanelProps> = ({
       </div>
       <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
         {hasDefaultImage ? (
-          <QRCode
+          <QRCodeCanvas
+            size={250}
             value={`https://repaint.asgs.dev/?event_id=${selectEventId}`}
-            width={250}
+            imageSettings={{
+              src: "/icon.png",
+              x: undefined,
+              y: undefined,
+              height: 72,
+              width: 72,
+              excavate: false,
+            }}
           />
         ) : (
           <p>デフォルト画像を追加後に表示されます。</p>
