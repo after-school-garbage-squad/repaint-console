@@ -41,15 +41,15 @@ export const EventQrPanel: FC<EventQrPanelProps> = ({
           ダウンロード
         </button>
       </div>
-      <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
+      <div id="qr-code" className={"grid flex-auto place-items-center"}>
         {hasDefaultImage ? (
           <QRCodeCanvas
             size={250}
+            level="H"
+            includeMargin={true}
             value={`https://repaint.asgs.dev/?event_id=${selectEventId}`}
             imageSettings={{
               src: "/icon.png",
-              x: undefined,
-              y: undefined,
               height: 72,
               width: 72,
               excavate: false,
