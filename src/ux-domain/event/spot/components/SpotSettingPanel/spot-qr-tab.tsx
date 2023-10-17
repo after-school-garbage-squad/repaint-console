@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
 import html2canvas from "html2canvas";
-import QRCode from "react-qr-code";
+import { QRCodeCanvas } from "qrcode.react";
 
 import type { Spot } from "@/domain/event/types";
 
@@ -31,12 +31,27 @@ export const SpotQRContent: FC<SpotQRContentProps> = ({
     <div className="flex flex-col">
       {spot.isPick ? (
         <div id="qr-code" className={"grid flex-auto place-items-center p-4"}>
-          <QRCode
+          {/* <QRCode
             value={JSON.stringify({
               event_id: selectEventId,
               spot_id: spot.spotId,
             })}
             width={250}
+          /> */}
+          <QRCodeCanvas
+            size={250}
+            value={JSON.stringify({
+              event_id: selectEventId,
+              spot_id: spot.spotId,
+            })}
+            imageSettings={{
+              src: "/icon.png",
+              x: undefined,
+              y: undefined,
+              height: 72,
+              width: 72,
+              excavate: false,
+            }}
           />
         </div>
       ) : (
