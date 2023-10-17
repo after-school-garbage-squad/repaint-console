@@ -15,7 +15,7 @@ export const useTrafficStatus = (eventId: string) => {
     `/api/admin/spot?eventId=${eventId}`,
     fetcher,
     {
-      refreshInterval: 1000,
+      refreshInterval: 10_000,
     },
   );
   return { data, error, isLoading };
