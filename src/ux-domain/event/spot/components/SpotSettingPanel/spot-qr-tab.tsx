@@ -30,12 +30,15 @@ export const SpotQRContent: FC<SpotQRContentProps> = ({
   return (
     <div className="flex flex-col">
       {spot.isPick ? (
-        <div id="qr-code" className={"grid flex-auto place-items-center"}>
+        <div id="qr-code" className={"grid flex-auto place-items-center p-2"}>
           <QRCodeCanvas
             size={250}
             level="H"
             includeMargin={true}
-            value={`https://repaint.asgs.dev/?event_id=${selectEventId}`}
+            value={JSON.stringify({
+              event_id: selectEventId,
+              spot_id: spot.spotId,
+            })}
             imageSettings={{
               src: "/icon.png",
               height: 72,

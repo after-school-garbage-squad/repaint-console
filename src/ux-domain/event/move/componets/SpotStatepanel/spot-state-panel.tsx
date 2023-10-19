@@ -50,9 +50,7 @@ export const SpotStatePanel: FC<SpotStatePanelProps> = ({
       </div>
       <div className={"mt-2 w-full"}>
         <ul
-          className={
-            "grid grid-flow-col grid-cols-1 gap-4 md:grid-flow-row md:grid-cols-2"
-          }
+          className={"grid grid-rows-1 gap-4 md:grid-flow-row md:grid-cols-2"}
         >
           {spotWithTrafficStatusList ? (
             spotWithTrafficStatusList.map((spot) => (
